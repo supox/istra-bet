@@ -1,11 +1,12 @@
 class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet]
   before_action :set_bets, only: [:show, :bet]
+  before_action :set_tournament, only: [:index, :new, :create]
 
   # GET /rounds
   # GET /rounds.json
   def index
-    @rounds = Round.all
+    @rounds = @tournament.rounds
   end
 
   # GET /rounds/1
@@ -15,7 +16,7 @@ class RoundsController < ApplicationController
 
   # GET /rounds/new
   def new
-    @round = Round.new
+    @round = @tournament.rounds.build
   end
 
   # GET /rounds/1/edit
@@ -25,7 +26,7 @@ class RoundsController < ApplicationController
   # POST /rounds
   # POST /rounds.json
   def create
-    @round = Round.new(round_params)
+    @round = @tournament.rounds.build(round_params)
 
     respond_to do |format|
       if @round.save
@@ -94,6 +95,11 @@ class RoundsController < ApplicationController
     def set_bets
       @bets = @round.bets current_user
     end
+
+    def set_tournament
+      @tournament = Tournament.find(params[:tournament_id])
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def round_params

@@ -1,4 +1,4 @@
-= simple_form_for @round do |f|
+= simple_form_for [@round.tournament, @round] do |f|
   = f.input :name
   = f.input :expiration_date
   = f.association :tournament
@@ -7,7 +7,5 @@
   = f.fields_for :games do |g|
     = render 'game_fields', f: g
   = link_to_add_fields "Add Game", f, :games
-
-
 
   = f.button :submit
