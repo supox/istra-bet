@@ -1,0 +1,26 @@
+%p#notice= notice
+
+%p
+  = @game.description
+%p
+  %b Team1:
+  = @game.team1
+%p
+  %b Team2:
+  = @game.team2
+%p
+  %b Start time:
+  = @game.start_time
+%p
+  %b Bet points:
+  = @game.bet_points
+%p
+  %b Result:
+  = @game.result
+%p
+  %b Round:
+  = @game.round
+
+= link_to 'Edit', edit_game_path(@game)
+\|
+= link_to 'Back', games_path

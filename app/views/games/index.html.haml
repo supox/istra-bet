@@ -1,0 +1,31 @@
+%h1 Listing games
+
+%table
+  %thead
+    %tr
+      %th Team1
+      %th Team2
+      %th Start time
+      %th Bet points
+      %th Result
+      %th Round
+      %th
+      %th
+      %th
+
+  %tbody
+    - @games.each do |game|
+      %tr
+        %td= game.team1
+        %td= game.team2
+        %td= game.start_time
+        %td= game.bet_points
+        %td= game.result
+        %td= game.round
+        %td= link_to 'Show', game
+        %td= link_to 'Edit', edit_game_path(game)
+        %td= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Game', new_game_path

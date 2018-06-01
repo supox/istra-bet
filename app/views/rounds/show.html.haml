@@ -1,0 +1,36 @@
+%p
+  %b Name:
+  = @round.name
+%p
+  %b Expiration date:
+  = @round.expiration_date
+%p
+  %b Tournament:
+  = link_to @round.tournament, tournament_path
+
+%p
+  %b Games:
+  %table
+    %tbody
+      %tr
+        %th Description
+        %th Team 1
+        %th Team 2
+        %th Time
+        %th Points
+        %th Result
+        %th My Bet
+      - @bets.each do |bet|
+        %tr
+          %td= bet.game.description
+          %td= bet.game.team1
+          %td= bet.game.team2
+          %td= bet.game.start_time
+          %td= bet.game.bet_points
+          %td= bet.game.result_name
+          %td= bet.answer_name
+
+= link_to 'Bet!', bet_round_path(@round)
+= link_to 'Edit', edit_round_path(@round)
+\|
+= link_to 'Back', tournament_rounds_path(@round.tournament_id)

@@ -1,0 +1,9 @@
+= simple_form_for @game do |f|
+  = f.input :description
+  = f.input :team1
+  = f.input :team2
+  = f.input :start_time
+  = f.input :bet_points
+  = f.input :result
+  = f.association :round
+  = f.button :submit

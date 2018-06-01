@@ -1,0 +1,35 @@
+%p
+  %b Name:
+  = @tournament.name
+%p
+  %b Description:
+  = @tournament.description
+
+%b Rounds:
+%table
+  %tr
+    %th Round Name
+    %th Bet
+  - @tournament.rounds.each do |round|
+    %tr
+      %td= link_to round, round_path(round)
+      %td
+        - if round.open?
+          =link_to "Bet!", bet_round_path(round)
+        - else
+          ="No more bets"
+
+%b Dash board:
+%table
+  %tr
+    %th User
+    %th Points
+  - @tournament.scores.each do |user_id, score|
+    %tr
+      %td= user_id
+      %td= score
+
+
+= link_to 'Edit', edit_tournament_path(@tournament)
+\|
+= link_to 'Back', tournaments_path

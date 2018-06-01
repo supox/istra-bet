@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Answer:
+  = @bet.answer
+%p
+  %b Game:
+  = @bet.game
+%p
+  %b User:
+  = @bet.user
+
+= link_to 'Edit', edit_bet_path(@bet)
+\|
+= link_to 'Back', bets_path

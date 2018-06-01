@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team1: MyString
+  team2: MyString
+  start_time: 2018-05-30 23:55:55
+  bet_points: 1
+  correct_answer: 1
+  round: one
+
+two:
+  team1: MyString
+  team2: MyString
+  start_time: 2018-05-30 23:55:55
+  bet_points: 1
+  correct_answer: 1
+  round: two
