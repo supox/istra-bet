@@ -1,5 +1,10 @@
 class Tournament < ApplicationRecord
   has_many :rounds, dependent: :destroy
+  strip_attributes
+
+  validates :name, length: { in: 2..80 }
+  validates :description, length: { in: 2..400 }
+  validates :name, :description, presence: true
 
   def to_s
     self.name

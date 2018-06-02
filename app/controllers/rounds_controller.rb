@@ -17,10 +17,13 @@ class RoundsController < ApplicationController
   # GET /rounds/new
   def new
     @round = @tournament.rounds.build
+    @round.games.build  # start with at least one game
+    @form_for = [@tournament, @round]
   end
 
   # GET /rounds/1/edit
   def edit
+    @form_for = @round
   end
 
   # POST /rounds
@@ -33,6 +36,7 @@ class RoundsController < ApplicationController
         format.html { redirect_to @round, notice: 'Round was successfully created.' }
         format.json { render :show, status: :created, location: @round }
       else
+        @form_for = [@tournament, @round]
         format.html { render :new }
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
@@ -47,6 +51,7 @@ class RoundsController < ApplicationController
         format.html { redirect_to @round, notice: 'Round was successfully updated.' }
         format.json { render :show, status: :ok, location: @round }
       else
+        @form_for = @round
         format.html { render :edit }
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
@@ -56,9 +61,10 @@ class RoundsController < ApplicationController
   # DELETE /rounds/1
   # DELETE /rounds/1.json
   def destroy
+    tournament = @round.tournament
     @round.destroy
     respond_to do |format|
-      format.html { redirect_to rounds_url, notice: 'Round was successfully destroyed.' }
+      format.html { redirect_to tournament_rounds_url(tournament), notice: 'Round was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -2,7 +2,10 @@ class Round < ApplicationRecord
   belongs_to :tournament
   has_many :games, inverse_of: :round, dependent: :destroy
   validates_associated :tournament
-
+  validates :name, length: { in: 2..100 }
+  validates :name, :expiration_date, presence: true
+  validate :expiration_date_on_future, on: :create
+  validates_uniqueness_of :name, scope: [:tournament]
   accepts_nested_attributes_for :games, allow_destroy: true
 
   def to_s
@@ -37,4 +40,9 @@ class Round < ApplicationRecord
       b.save!
     end
   end
+
+  def expiration_date_on_future
+    errors.add(:expiration_date, 'must be in the future') if expiration_date < DateTime.now
+  end
+
 end
