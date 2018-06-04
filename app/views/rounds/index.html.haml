@@ -3,23 +3,23 @@
 %table
   %thead
     %tr
-      %th Name
+      %th Round
       %th Expiration date
       %th Tournament
-      %th
-      %th
-      %th
+      - if current_user.try(:admin?)
+        %th
+        %th
 
   %tbody
     - @rounds.each do |round|
       %tr
-        %td= round.name
+        %td= link_to round.name, round 
         %td= round.expiration_date
         %td= round.tournament
-        %td= link_to 'Show', round
-        %td= link_to 'Edit', edit_round_path(round)
-        %td= link_to 'Destroy', round, method: :delete, data: { confirm: 'Are you sure?' }
+        - if current_user.try(:admin?)
+          %td= link_to 'Edit round', edit_round_path(round)
+          %td= link_to 'Delete round', round, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
-
-= link_to 'New Round', new_tournament_round_path
+- if current_user.try(:admin?)
+  %p
+  = link_to 'New Round', new_tournament_round_path

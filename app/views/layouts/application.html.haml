@@ -3,7 +3,9 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
-    %title IstraBet
+    = favicon_link_tag "favicon.png"
+
+    %title Beti Bam
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all'
@@ -13,25 +15,28 @@
     / Navigation
     %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
       .container
-        %a.navbar-brand{:href => "#"} Start Bootstrap
+        %a.navbar-brand{:href => "/"} Beti Bam
         %button.navbar-toggler{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
           %span.navbar-toggler-icon
         #navbarResponsive.collapse.navbar-collapse
           %ul.navbar-nav.ml-auto
-            %li.nav-item.active
-              %a.nav-link{:href => "#"}
-                Home
-                %span.sr-only (current)
-            %li.nav-item
-              %a.nav-link{:href => "#"} About
-            %li.nav-item
-              %a.nav-link{:href => "#"} Services
-            %li.nav-item
-              %a.nav-link{:href => "#"} Contact
+            - if user_signed_in?
+              %li.nav-item.active
+                %a.nav-link{:href => "/dashboard"}
+                  = "#{current_user} - #{current_user.score} points"
+                  %span.sr-only (current)
+              %li.nav-item
+                %a.nav-link{:href => destroy_user_session_path} Logout
+            - else
+              %li.nav-item
+                %a.nav-link{:href => new_user_session_path}
+                  Log-in
+              %li.nav-item
+                %a.nav-link{:href => new_user_registration_path} Sign-Up
+
+
     / Page Content
     .container
       %p#notice= notice
       %p#alert= alert
-      - if user_signed_in?
-        = "#{current_user} - #{current_user.score} points"
       = yield

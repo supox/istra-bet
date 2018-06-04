@@ -3,6 +3,8 @@
   = f.input :expiration_date
 
   -# GAMES #-
+  %br
+  .center Games
   = f.fields_for :games do |g|
     = render 'game_fields', f: g
   %div

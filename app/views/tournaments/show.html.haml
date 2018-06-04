@@ -1,12 +1,10 @@
-%p
-  %b Name:
+%h1
   = @tournament.name
 %p
-  %b Description:
   = @tournament.description
 
-%b Rounds:
-%table
+.center Rounds
+%table.table.table-dark.table-striped.table-hover
   %tr
     %th Round Name
     %th Bet
@@ -19,8 +17,8 @@
         - else
           ="No more bets"
 
-%b Dash board:
-%table
+.center Dashboard
+%table.table.table-dark.table-striped.table-hover
   %tr
     %th User
     %th Points
@@ -30,7 +28,9 @@
       %td= score
 
 
-= link_to 'New Round', new_tournament_round_path(@tournament)
-= link_to 'Edit', edit_tournament_path(@tournament)
-\|
+-if current_user.try(:admin?)
+  = link_to 'Create new round', new_tournament_round_path(@tournament)
+  \|
+  = link_to 'Edit round', edit_tournament_path(@tournament)
+  \|
 = link_to 'Back', tournaments_path

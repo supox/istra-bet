@@ -1,21 +1,26 @@
-%h1 Listing tournaments
+%h1 Active Tournaments
 
-%table
+%table.table
   %thead
     %tr
       %th Name
       %th Description
-      %th
-      %th
+      -if current_user.try(:admin?)
+        %th
+        %th
 
   %tbody
     - @tournaments.each do |tournament|
       %tr
         %td= link_to tournament.name, tournament
         %td= tournament.description
-        %td= link_to 'Edit', edit_tournament_path(tournament)
-        %td= link_to 'Destroy', tournament, method: :delete, data: { confirm: 'Are you sure?' }
+        -if current_user.try(:admin?)
+          %td= link_to 'Edit', edit_tournament_path(tournament)
+          %td= link_to 'Destroy', tournament, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
+-if current_user.try(:admin?)
+  %p
+  = link_to 'New Tournament', new_tournament_path
 
-= link_to 'New Tournament', new_tournament_path
+.logo
+  = image_tag "logo.png"

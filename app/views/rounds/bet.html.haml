@@ -34,7 +34,3 @@
           %td
             = f.input :answer, as: :radio_buttons, collection: bet.answer_hash, checked: Bet.answers[bet.answer], boolean_style: :inline, input_html: { name: "bets[#{bet.game.id}]" }
   = f.submit
-
-= link_to 'Edit Round', edit_round_path(@round)
-\|
-= link_to 'Back', tournament_rounds_path(@round.tournament_id)

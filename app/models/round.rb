@@ -35,6 +35,7 @@ class Round < ApplicationRecord
       self.errors.add(:base, "Illegal answer values: #{new_bets.values}")
       return false
     end
+    
     bets.each do |b|
       b.answer = new_bets[b.game_id]
       b.save!
