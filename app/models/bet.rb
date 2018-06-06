@@ -6,13 +6,13 @@ class Bet < ApplicationRecord
 
   enum answer: {team1: 1, team2: 2, tie: 3}
   validates :answer, presence: true, inclusion: Bet.answers.keys
-  validates_uniqueness_of :game, uniqueness: { scope: :user }
-
+  validates_uniqueness_of :game, scope: :user
 
 
   def answer_hash
     {self.game.team1 => 1, self.game.team2 => 2, Tie: 3}
   end
+  
 
   def answer_name
     return "-" if self.answer.nil?

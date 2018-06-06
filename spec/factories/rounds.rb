@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :round do
     tournament
-    name "Round1"
+    sequence(:name) {|n| "Round #{n}" }
     expiration_date {DateTime.now + 3.days}
   end
 end

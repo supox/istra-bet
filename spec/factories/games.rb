@@ -6,6 +6,6 @@ FactoryBot.define do
     team2 "Argentina"
     start_time { DateTime.now }
     bet_points 2
-    result 0
+    result 3
   end
 end

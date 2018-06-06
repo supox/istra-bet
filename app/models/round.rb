@@ -13,7 +13,7 @@ class Round < ApplicationRecord
   end
 
   def open?
-    self.expiration_date < DateTime.now
+    self.expiration_date and self.expiration_date > DateTime.now
   end
 
   def bets(user)
@@ -43,7 +43,7 @@ class Round < ApplicationRecord
   end
 
   def expiration_date_on_future
-    errors.add(:expiration_date, 'must be in the future') if expiration_date < DateTime.now
+    errors.add(:expiration_date, 'must be in the future') if not open?
   end
 
 end

@@ -30,8 +30,9 @@ RSpec.describe Bet, :type => :model do
     end
 
     it "should be zero for wrong answer" do
-      bet.answer = :tie
       game.result = :team1
+      game.save!
+      bet.answer = :tie
       expect(bet.points).to eq 0
     end
   end
@@ -48,7 +49,7 @@ RSpec.describe Bet, :type => :model do
     end
 
     it "must have valid answer" do
-      expect {bet.answer = :bla}.to raise_error
+      expect {bet.answer = :bla}.to raise_error(ArgumentError)
     end
 
     it "can be valid" do

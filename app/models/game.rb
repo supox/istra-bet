@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   belongs_to :round, inverse_of: :games
-  has_many :bets,:dependent => :destroy 
   validates_associated :round
+  has_many :bets, :dependent => :destroy 
 
   validates :description, length: { in: 2..40 }
   validates :team1, :team2, length: { in: 2..20 }
