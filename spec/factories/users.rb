@@ -15,10 +15,11 @@ FactoryBot.define do
     confirmation_sent_at { DateTime.now }
     sequence(:unconfirmed_email) {|n| "israel#{n}@mail.com" }
     admin false
+
+    factory :admin do
+      admin true
+    end
   end
 
-  factory :admin, class: User do
-    admin true
-  end
 end
 
