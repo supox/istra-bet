@@ -80,6 +80,22 @@ RSpec.describe Round, :type => :model do
       expect{round.update_bets(new_bets, user)}.not_to change{Bet.count}
       expect(round.errors).not_to be_empty
     end
+
+    it "shouldn't update bets for closed rounds" do
+      round.expiration_date = DateTime.now - 2.days
+      round.save!
+      user = create(:user)
+      game = create(:game, round: round)
+
+      new_bets = {
+        game.id => Bet.answers[:tie],
+      }
+
+      expect{round.update_bets(new_bets, user)}.not_to change{Bet.count}
+      expect(round.errors).not_to be_empty
+    end
+
+
   end
 
   it "should have to_s method" do

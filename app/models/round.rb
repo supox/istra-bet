@@ -23,6 +23,10 @@ class Round < ApplicationRecord
   end
 
   def update_bets(new_bets, user)
+    unless open?
+      self.errors.add(:base, "Round already closed.")
+      return false
+    end
     new_bets.transform_keys!(&:to_i)
     new_bets.transform_values!(&:to_i) 
 
