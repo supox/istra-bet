@@ -2,6 +2,7 @@ class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet]
   before_action :set_bets, only: [:show, :bet]
   before_action :set_tournament, only: [:index, :new, :create]
+  before_action :validate_admin, except: [:index, :show, :bet, :update_bet]
 
   # GET /rounds
   # GET /rounds.json
