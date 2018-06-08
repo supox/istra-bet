@@ -15,24 +15,24 @@
     / Navigation
     %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
       .container
-        %a.navbar-brand{:href => "/"} Beti Bam
+        %a.navbar-brand{href:  "/"} Beti Bam
         %button.navbar-toggler{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
           %span.navbar-toggler-icon
         #navbarResponsive.collapse.navbar-collapse
           %ul.navbar-nav.ml-auto
             - if user_signed_in?
               %li.nav-item.active
-                %a.nav-link{:href => "/dashboard"}
+                %a.nav-link{href: edit_user_registration_path}
                   = "#{current_user} - #{current_user.score} points"
                   %span.sr-only (current)
               %li.nav-item
-                %a.nav-link{:href => destroy_user_session_path} Logout
+                %a.nav-link{href:  destroy_user_session_path} Logout
             - else
               %li.nav-item
-                %a.nav-link{:href => new_user_session_path}
+                %a.nav-link{href:  new_user_session_path}
                   Log-in
               %li.nav-item
-                %a.nav-link{:href => new_user_registration_path} Sign-Up
+                %a.nav-link{href:  new_user_registration_path} Sign-Up
 
 
     / Page Content

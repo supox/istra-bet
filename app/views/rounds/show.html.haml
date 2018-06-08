@@ -2,8 +2,13 @@
   %b Name:
   = @round.name
 %p
-  %b Expiration date:
-  = @round.expiration_date
+  %b Last time to bet:
+  = @round.expiration_date.to_formatted_s(:istra)
+  - if @round.open?
+    (Open)
+  - else
+    (Closed)
+    
 %p
   %b Tournament:
   = link_to @round.tournament, tournament_path
@@ -25,14 +30,13 @@
           %td= bet.game.description
           %td= bet.game.team1
           %td= bet.game.team2
-          %td= bet.game.start_time
+          %td= bet.game.start_time.to_formatted_s(:istra)
           %td= bet.game.bet_points
           %td= bet.game.result_name
           %td= bet.answer_name
 
-= link_to 'Bet!', bet_round_path(@round)
-\|
+- if @round.open?
+  = link_to 'Bet!', bet_round_path(@round), class: "btn btn-small btn-primary"
 - if current_user.try(:admin?)
-  = link_to 'Edit', edit_round_path(@round)
-  \|
-= link_to 'Back', tournament_rounds_path(@round.tournament_id)
+  = link_to 'Edit round', edit_round_path(@round), class: "btn btn-small btn-danger"
+= link_to 'Back', tournament_rounds_path(@round.tournament_id), class: "btn btn-small btn-info"

@@ -8,7 +8,7 @@
 
 %p
   %b Last time to bet:
-  = @round.expiration_date
+  = @round.expiration_date.to_formatted_s(:istra)
 %p
   %b Tournament:
   = link_to @round.tournament, tournament_path
@@ -29,8 +29,9 @@
           %td= bet.game.description
           %td= bet.game.team1
           %td= bet.game.team2
-          %td= bet.game.start_time
+          %td= bet.game.start_time.to_formatted_s(:istra)
           %td= bet.game.bet_points
           %td
             = f.input :answer, as: :radio_buttons, collection: bet.answer_hash, checked: Bet.answers[bet.answer], boolean_style: :inline, input_html: { name: "bets[#{bet.game.id}]" }
-  = f.submit
+  = f.submit 'Bet!', class: "btn btn-small btn-primary"
+  = link_to "Cancel", :back, class: "btn btn-small btn-info"

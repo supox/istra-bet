@@ -1,4 +1,4 @@
-%h1 Listing rounds
+%h1= "#{@tournament} - Rounds"
 
 %table
   %thead
@@ -14,7 +14,7 @@
     - @rounds.each do |round|
       %tr
         %td= link_to round.name, round 
-        %td= round.expiration_date
+        %td= round.expiration_date.to_formatted_s(:istra)
         %td= round.tournament
         - if current_user.try(:admin?)
           %td= link_to 'Edit round', edit_round_path(round)

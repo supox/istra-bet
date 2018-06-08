@@ -29,8 +29,8 @@
 
 
 -if current_user.try(:admin?)
-  = link_to 'Create new round', new_tournament_round_path(@tournament)
+  = link_to 'Add a new round', new_tournament_round_path(@tournament)
   \|
-  = link_to 'Edit round', edit_tournament_path(@tournament)
+  = link_to 'Edit tournament details', edit_tournament_path(@tournament)
   \|
 = link_to 'Back', tournaments_path
