@@ -5,29 +5,6 @@ describe RoundsController do
   let(:tournament) { create(:tournament) }
   let(:round) { create(:round, tournament: tournament) }
 
-  describe 'GET #index' do
-    context 'when user is logged in' do
-      before do
-        sign_in user
-        get :index, params: {tournament_id: tournament.id}
-      end
-      it { is_expected.to respond_with :ok }
-      it { is_expected.to render_with_layout :application }
-      it { is_expected.to render_template :index }
-      it { 
-        create(:round, tournament: tournament)
-        create(:round, tournament: tournament)
-        expect(assigns(:rounds)).to eq(tournament.rounds) }
-    end
-
-    context 'when user is logged out' do
-      before do
-        get :index, params: {tournament_id: tournament.id}
-      end
-      it { is_expected.to redirect_to new_user_session_path }
-    end
-  end
-
   describe 'GET #show' do
     let(:game) {create(:game, round: round)}
     before do
@@ -84,7 +61,7 @@ describe RoundsController do
       it "should update bets" do
         expect(Bet.all.each{|b| b.answer }).to all(be)
       end
-      it { expect(response).to redirect_to(round) }
+      it { expect(response).to redirect_to(round.tournament) }
     end
 
     context "Bad bets" do
@@ -217,7 +194,7 @@ describe RoundsController do
       }
       it "redirect to index" do
         delete :destroy, params:{id: round.id}
-        expect(response).to redirect_to tournament_rounds_path(tournament)
+        expect(response).to redirect_to tournament_path(tournament)
       end
     end
   end

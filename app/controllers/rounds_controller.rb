@@ -1,14 +1,8 @@
 class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet]
   before_action :set_bets, only: [:show, :bet]
-  before_action :set_tournament, only: [:index, :new, :create]
-  before_action :validate_admin, except: [:index, :show, :bet, :update_bet]
-
-  # GET /rounds
-  # GET /rounds.json
-  def index
-    @rounds = @tournament.rounds
-  end
+  before_action :set_tournament, only: [:new, :create]
+  before_action :validate_admin, except: [:show, :bet, :update_bet]
 
   # GET /rounds/1
   # GET /rounds/1.json
@@ -65,7 +59,7 @@ class RoundsController < ApplicationController
     tournament = @round.tournament
     @round.destroy
     respond_to do |format|
-      format.html { redirect_to tournament_rounds_url(tournament), notice: 'Round was successfully destroyed.' }
+      format.html { redirect_to tournament_url(tournament), notice: 'Round was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -80,7 +74,7 @@ class RoundsController < ApplicationController
       # sanitize bets
       bets = params.require(:bets)
       if @round.update_bets(bets, current_user)
-        format.html { redirect_to @round, notice: 'Bets were successfully updated.' }
+        format.html { redirect_to tournament_path(@round.tournament), notice: 'Bets were successfully updated.' }
         format.json { render :show, status: :ok, location: @round }
       else
         format.html {
