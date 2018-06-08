@@ -26,13 +26,17 @@ RSpec.describe User, :type => :model do
   end
 
   it "should have to_s method" do
-    expect(user.to_s).to eq(user.email)
+    expect(user.to_s).to eq(user.name)
   end
 
   context "validations" do
     it { expect(user).to be_valid }
     it { is_expected.to allow_values("supox0@bla.com", "harry.potter@gmail.com").for(:email) }
     it { is_expected.not_to allow_values('', nil, 'a', 'my_name_is').for(:email) }
+
+    it { is_expected.to allow_values("Ilan", "Gal Goldshtein").for(:name) }
+    it { is_expected.not_to allow_values("", nil, "a"*200, "!@#$%").for(:name) }
+    it { is_expected.to validate_uniqueness_of(:name)}
   end
 
 end

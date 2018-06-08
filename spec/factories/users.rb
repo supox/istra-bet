@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :user do
+    sequence(:name) {|n| "israel#{n}" }
     sequence(:email) {|n| "israel#{n}@mail.com" }
     password "12345678"
     sequence(:reset_password_token) {|n| "reset_#{n}"}
