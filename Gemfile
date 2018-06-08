@@ -43,7 +43,7 @@ gem 'devise'
 gem 'jquery-rails'
 gem "strip_attributes"
 gem 'ri_cal'
-
+gem 'sendgrid-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
