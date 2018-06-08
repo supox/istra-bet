@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "registrations" }
+
   resources :tournaments, shallow: true do
     resources :rounds, shallow: true do
       resources :rounds, except: :index do
