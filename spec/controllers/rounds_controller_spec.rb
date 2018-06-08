@@ -61,7 +61,7 @@ describe RoundsController do
       it "should update bets" do
         expect(Bet.all.each{|b| b.answer }).to all(be)
       end
-      it { expect(response).to redirect_to(round.tournament) }
+      it { expect(response).to redirect_to(round) }
     end
 
     context "Bad bets" do
