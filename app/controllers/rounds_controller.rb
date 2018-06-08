@@ -74,7 +74,7 @@ class RoundsController < ApplicationController
       # sanitize bets
       bets = params.require(:bets)
       if @round.update_bets(bets, current_user)
-        format.html { redirect_to tournament_path(@round.tournament), notice: 'Bets were successfully updated.' }
+        format.html { redirect_to round_path(@round), notice: 'Bets were successfully updated.' }
         format.json { render :show, status: :ok, location: @round }
       else
         format.html {

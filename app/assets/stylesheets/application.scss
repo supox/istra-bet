@@ -16,6 +16,7 @@
 
 body {
   padding-top: 70px;
+  padding-bottom: 70px;
 }
 
 .logo {
@@ -24,5 +25,15 @@ body {
 
 .center {
   text-align: center;
-  font-weight: bold;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #ADD8E6;
+  text-align: center;
 }

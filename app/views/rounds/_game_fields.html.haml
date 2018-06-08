@@ -1,10 +1,16 @@
-%fieldset
-  = f.label :game
-  = f.input :description
-  = f.input :team1
-  = f.input :team2
-  = f.input :start_time, label: "Game time"
-  = f.input :bet_points
-  = f.input :result
-  = f.input :_destroy, :as => :boolean, :input_html => { :checked => "" }, boolean_style: :inline, label: "Delete Game"
-
+.card.card-default
+  %h5.card-header
+    -if f.object.new_record?
+      Add a new game
+    - else
+      Edit Game
+  .card-body
+    %fieldset
+      = f.input :description
+      = f.input :team1
+      = f.input :team2
+      = f.input :start_time, label: "Game time"
+      = f.input :bet_points
+      = f.input :result
+      = f.input :_destroy, :as => :boolean, :input_html => { :checked => "" }, boolean_style: :inline, label: "Delete Game"
+%br

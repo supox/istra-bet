@@ -3,7 +3,7 @@
 %p
   = @tournament.description
 
-.center Rounds
+%h3.center Rounds
 %table.table.table-dark.table-striped.table-hover
   %tr
     %th Round Name
@@ -19,13 +19,15 @@
           ="No more bets"
       %td= link_to "ics Calendar", calendar_round_path(round)
 
-.center Dashboard
+%h3.center Dashboard
 %table.table.table-dark.table-striped.table-hover
   %tr
+    %th Rank
     %th User
     %th Points
-  - @tournament.scores.each do |user_id, score|
+  - @tournament.scores.each_with_index do |(user_id, score), index|
     %tr
+      %td= index + 1
       %td= user_id
       %td= score
 
