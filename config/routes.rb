@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         member do
           get 'bet'
           put 'update_bet'
+          get 'calendar'
         end 
       end
     end

@@ -1,8 +1,8 @@
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet]
+  before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar]
   before_action :set_bets, only: [:show, :bet]
   before_action :set_tournament, only: [:new, :create]
-  before_action :validate_admin, except: [:show, :bet, :update_bet]
+  before_action :validate_admin, except: [:show, :bet, :update_bet, :calendar]
 
   # GET /rounds/1
   # GET /rounds/1.json
@@ -84,6 +84,11 @@ class RoundsController < ApplicationController
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # GET /rounds/1/calendar
+  def calendar
+    render plain: @round.calendar, content_type: 'text/calendar'
   end
 
 

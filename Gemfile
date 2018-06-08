@@ -42,6 +42,7 @@ gem 'enum_help'
 gem 'devise'
 gem 'jquery-rails'
 gem "strip_attributes"
+gem 'ri_cal'
 
 
 group :development, :test do

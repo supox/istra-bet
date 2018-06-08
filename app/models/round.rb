@@ -46,6 +46,22 @@ class Round < ApplicationRecord
     end
   end
 
+  def calendar
+    txt = RiCal.Calendar do |ical|
+      ical.add_x_property 'X-WR-CALNAME', "#{self} round"
+      
+      self.games.each do |game| 
+        ical.event do |event|
+          event.dtstart = game.start_time
+          event.dtend = game.start_time + 90.minutes
+          event.summary = "#{game.description} - #{game.team1} vs #{game.team2}"
+        end
+      end
+    end.export
+  end
+
+private
+
   def expiration_date_on_future
     errors.add(:expiration_date, 'must be in the future') if not open?
   end

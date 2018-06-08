@@ -8,6 +8,7 @@
   %tr
     %th Round Name
     %th Bet
+    %th Download calendar
   - @tournament.rounds.each do |round|
     %tr
       %td= link_to round, round_path(round)
@@ -16,6 +17,7 @@
           =link_to "Bet!", bet_round_path(round)
         - else
           ="No more bets"
+      %td= link_to "ics Calendar", calendar_round_path(round)
 
 .center Dashboard
 %table.table.table-dark.table-striped.table-hover
