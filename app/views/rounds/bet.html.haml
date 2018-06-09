@@ -31,7 +31,7 @@
           %td= bet.game.team2
           %td= bet.game.start_time.to_formatted_s(:istra)
           %td= bet.game.bet_points
-          %td
+          %td{id: "bet_on_game_#{bet.game.id}"}
             = f.input :answer,
               as: :radio_buttons,
               collection: bet.answer_hash,
