@@ -4,4 +4,3 @@ FactoryBot.define do
     description "tour_desc"
   end
 end
-

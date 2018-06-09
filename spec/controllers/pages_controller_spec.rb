@@ -17,7 +17,7 @@ describe PagesController do
       it { expect(assigns(:users)).to eq(nil) }
     end
     context "when user is admin" do
-      let (:user) {create(:admin)}
+      let(:user) { create(:admin) }
       before do
         sign_in user
         create_list(:tournament, 2)

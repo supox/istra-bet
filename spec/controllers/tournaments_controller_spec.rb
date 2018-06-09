@@ -13,9 +13,10 @@ describe TournamentsController do
       it { is_expected.to respond_with :ok }
       it { is_expected.to render_with_layout :application }
       it { is_expected.to render_template :index }
-      it { 
+      it {
         create_list(:tournament, 2)
-        expect(assigns(:tournaments)).to eq(Tournament.all) }
+        expect(assigns(:tournaments)).to eq(Tournament.all)
+      }
     end
 
     context 'when user is logged out' do
@@ -29,7 +30,7 @@ describe TournamentsController do
   describe 'GET #show' do
     before do
       sign_in user
-      get :show, params: {id: tournament.id}
+      get :show, params: { id: tournament.id }
     end
     it { expect(assigns(:tournament)).to eq(tournament) }
     it { is_expected.to render_with_layout :application }
@@ -42,7 +43,7 @@ describe TournamentsController do
         sign_in user
         get :new
       end
-      it { expect(response).to have_http_status 401 } 
+      it { expect(response).to have_http_status 401 }
     end
 
     context "admin" do
@@ -61,16 +62,16 @@ describe TournamentsController do
     context "not admin" do
       before do
         sign_in user
-        get :edit, params: {id: tournament.id}
+        get :edit, params: { id: tournament.id }
       end
-      it { expect(response).to have_http_status 401 } 
+      it { expect(response).to have_http_status 401 }
     end
 
     context "admin" do
       let(:user) { create(:admin) }
       before do
         sign_in user
-        get :edit, params: {id: tournament.id}
+        get :edit, params: { id: tournament.id }
       end
 
       it { is_expected.to render_with_layout :application }
@@ -86,9 +87,10 @@ describe TournamentsController do
       end
       it {
         tournament_params = attributes_for(:tournament)
-        expect { post :create, params: {tournament: tournament_params} }.not_to change{Tournament.count}
+        expect do
+          post :create, params: { tournament: tournament_params }
+        end.not_to(change { Tournament.count })
       }
-
     end
 
     context "admin" do
@@ -98,17 +100,19 @@ describe TournamentsController do
       end
       it {
         tournament_params = attributes_for(:tournament)
-        expect { post :create, params: {tournament: tournament_params} }.to change{Tournament.count}.by(1)
+        expect do
+          post :create, params: { tournament: tournament_params }
+        end.to change { Tournament.count }.by(1)
       }
     end
   end
 
   describe 'PUT #update' do
-    let(:attr) {attributes_for(:tournament, description: "NEW DESC")}
+    let(:attr) { attributes_for(:tournament, description: "NEW DESC") }
     context "not admin" do
       before do
         sign_in user
-        put :update, params: {id: tournament.id, tournament:attr}
+        put :update, params: { id: tournament.id, tournament: attr }
         tournament.reload
       end
       it {
@@ -120,7 +124,7 @@ describe TournamentsController do
       let(:user) { create(:admin) }
       before do
         sign_in user
-        put :update, params: {id: tournament.id, tournament:attr}
+        put :update, params: { id: tournament.id, tournament: attr }
         tournament.reload
       end
       it { expect(tournament.description).to eq("NEW DESC") }
@@ -135,7 +139,9 @@ describe TournamentsController do
       end
       it {
         tournament
-        expect{delete :destroy, params:{id: tournament.id}}.not_to change{Tournament.count}
+        expect do
+          delete :destroy, params: { id: tournament.id }
+        end.not_to(change { Tournament.count })
       }
     end
 
@@ -146,14 +152,14 @@ describe TournamentsController do
       end
       it {
         tournament
-        expect{delete :destroy, params:{id: tournament.id}}.to change{Tournament.count}.by(-1)
+        expect do
+          delete :destroy, params: { id: tournament.id }
+        end.to change { Tournament.count }.by(-1)
       }
       it "redirect to index" do
-        delete :destroy, params:{id: tournament.id}
+        delete :destroy, params: { id: tournament.id }
         expect(response).to redirect_to tournaments_path
       end
     end
   end
-
-
 end

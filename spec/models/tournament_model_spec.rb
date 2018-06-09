@@ -18,21 +18,20 @@ RSpec.describe Tournament, :type => :model do
       game21 = create(:game, round: round1, bet_points: 1)
       game22 = create(:game, round: round2, bet_points: 2)
       game23 = create(:game, round: round2, bet_points: 3)
-      bet111 = create(:bet, user: user1, game: game11, answer: game11.result) # 2
-      bet112 = create(:bet, user: user1, game: game12, answer: :team1) # 0
-      bet121 = create(:bet, user: user1, game: game21, answer: game21.result) # 1
-      bet122 = create(:bet, user: user1, game: game22, answer: :team1) # 0
-      bet123 = create(:bet, user: user1, game: game23, answer: game23.result) # 3
-      bet211 = create(:bet, user: user2, game: game11, answer: :team1) # 2
-      bet212 = create(:bet, user: user2, game: game12, answer: game12.result) # 4
-      bet221 = create(:bet, user: user2, game: game21, answer: :team1) # 0
-      bet222 = create(:bet, user: user2, game: game22, answer: :team1) # 0
-      bet223 = create(:bet, user: user2, game: game23, answer: game23.result) # 3
-      bet323 = create(:bet, user: user3, game: game23, answer: game23.result) # 3
+      create(:bet, user: user1, game: game11, answer: game11.result) # 2
+      create(:bet, user: user1, game: game12, answer: :team1) # 0
+      create(:bet, user: user1, game: game21, answer: game21.result) # 1
+      create(:bet, user: user1, game: game22, answer: :team1) # 0
+      create(:bet, user: user1, game: game23, answer: game23.result) # 3
+      create(:bet, user: user2, game: game11, answer: :team1) # 2
+      create(:bet, user: user2, game: game12, answer: game12.result) # 4
+      create(:bet, user: user2, game: game21, answer: :team1) # 0
+      create(:bet, user: user2, game: game22, answer: :team1) # 0
+      create(:bet, user: user2, game: game23, answer: game23.result) # 3
+      create(:bet, user: user3, game: game23, answer: game23.result) # 3
 
       expect(tournament.scores).to eq([[user2, 7], [user1, 6], [user3, 3]])
     end
-
   end
 
   it "should have to_s method" do

@@ -23,7 +23,7 @@ RSpec.describe Round, :type => :model do
       bet1 = create(:bet, user: user, game: game1, answer: :tie)
 
       bets = round.bets(user)
-      bets_games = bets.map{|b| b.game}
+      bets_games = bets.map(&:game)
 
       expect(bets).to include(bet1)
       expect(bets.length).to eq(3)
@@ -40,28 +40,28 @@ RSpec.describe Round, :type => :model do
       new_bets = {
         game1.id => Bet.answers[:tie],
         game2.id => Bet.answers[:team1],
-        game3.id => Bet.answers[:team2]
+        game3.id => Bet.answers[:team2],
       }
 
       expect(round.update_bets(new_bets, user)).to be
       bets = round.bets(user)
       expect(bets.length).to eq(3)
-      answers = bets.map{|b| b.answer}
-      %w(tie team1 team2).each{|a| expect(answers).to include(a)}
+      answers = bets.map(&:answer)
+      %w(tie team1 team2).each { |a| expect(answers).to include(a) }
     end
 
     it "shouldn't update missing bets" do
       user = create(:user)
       game1 = create(:game, round: round)
       game2 = create(:game, round: round)
-      game3 = create(:game, round: round)
+      # game3 = create(:game, round: round)
 
       new_bets = {
         game1.id => Bet.answers[:team1],
-        game2.id => Bet.answers[:team2]
+        game2.id => Bet.answers[:team2],
       }
 
-      expect{round.update_bets(new_bets, user)}.not_to change{Bet.count}
+      expect { round.update_bets(new_bets, user) }.not_to(change { Bet.count })
       expect(round.errors).not_to be_empty
     end
 
@@ -74,10 +74,10 @@ RSpec.describe Round, :type => :model do
       new_bets = {
         game1.id => Bet.answers[:team1],
         game2.id => Bet.answers[:team1],
-        game4.id => Bet.answers[:tie]
+        game4.id => Bet.answers[:tie],
       }
 
-      expect{round.update_bets(new_bets, user)}.not_to change{Bet.count}
+      expect { round.update_bets(new_bets, user) }.not_to(change { Bet.count })
       expect(round.errors).not_to be_empty
     end
 
@@ -91,11 +91,9 @@ RSpec.describe Round, :type => :model do
         game.id => Bet.answers[:tie],
       }
 
-      expect{round.update_bets(new_bets, user)}.not_to change{Bet.count}
+      expect { round.update_bets(new_bets, user) }.not_to(change { Bet.count })
       expect(round.errors).not_to be_empty
     end
-
-
   end
 
   it "should have to_s method" do
@@ -104,7 +102,10 @@ RSpec.describe Round, :type => :model do
 
   context "expiration date" do
     it "should validate expiration date on create" do
-      expect{create(:round, expiration_date: DateTime.now - 1.days)}.to raise_error(ActiveRecord::RecordInvalid)
+      yesterday = DateTime.now - 1.days
+      expect do
+        create(:round, expiration_date: yesterday)
+      end.to raise_error(ActiveRecord::RecordInvalid)
     end
     it "should allow expired round on edit" do
       round.expiration_date = DateTime.now - 1.days

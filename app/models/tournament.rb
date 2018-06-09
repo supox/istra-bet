@@ -7,18 +7,18 @@ class Tournament < ApplicationRecord
   validates :name, :description, presence: true
 
   def to_s
-    self.name
+    name
   end
 
   def scores
     h = Hash.new(0)
-    self.rounds.each do |round|
+    rounds.each do |round|
       round.games.each do |game|
         game.bets.each do |bet|
           h[bet.user_id] += bet.points
         end
       end
     end
-    h.transform_keys {|user_id| User.find(user_id)}.sort_by{|k, v| -v}
+    h.transform_keys { |user_id| User.find(user_id) }.sort_by { |_k, v| -v }
   end
 end

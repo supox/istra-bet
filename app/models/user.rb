@@ -12,19 +12,17 @@ class User < ApplicationRecord
 
   scope :confirmed, -> { where("confirmed_at IS NOT NULL") }
 
-
   def to_s
-    self.name
+    name
   end
 
   def score
     bets.sum(&:points)
   end
 
-private
+  private
 
   def skip_conf!
-    self.confirm if Rails.env.development? || Rails.env.test?
+    confirm if Rails.env.development? || Rails.env.test?
   end
-
 end

@@ -8,12 +8,11 @@ Rails.application.routes.draw do
           get 'bet'
           put 'update_bet'
           get 'calendar'
-        end 
+        end
       end
     end
   end
 
   root to: 'pages#home'
   get 'pages/home'
-
 end

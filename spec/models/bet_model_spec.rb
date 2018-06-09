@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Bet, :type => :model do
   let(:user) { create(:user) }
   let(:game) { create(:game) }
-  let(:bet) { Bet.new({user_id: user.id, game_id: game.id, answer: :team1}) }
+  let(:bet) { Bet.new(user_id: user.id, game_id: game.id, answer: :team1) }
 
   context "Answer name" do
     it "should return '-' for no answer" do
@@ -44,9 +44,9 @@ RSpec.describe Bet, :type => :model do
     it { is_expected.to belong_to(:user) }
     it { is_expected.not_to allow_values(nil).for(:answer) }
     it "must have valid answer" do
-      expect {bet.answer = :bla}.to raise_error(ArgumentError)
+      expect { bet.answer = :bla }.to raise_error(ArgumentError)
     end
-    it "Validate uniqueness" do 
+    it "Validate uniqueness" do
       user1 = create(:user)
       user2 = create(:user)
       game1 = create(:game)
@@ -59,7 +59,7 @@ RSpec.describe Bet, :type => :model do
       bet21 = Bet.new(user_id: user2.id, game_id: game1.id, answer: :tie)
       expect(bet21).to be_valid
       bet12 = Bet.new(user_id: user1.id, game_id: game2.id, answer: :tie)
-      expect(bet21).to be_valid
+      expect(bet12).to be_valid
 
       # expect(create(:bet)).to validate_uniqueness_of(:game).scoped_to(:user)
     end

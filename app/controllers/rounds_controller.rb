@@ -12,7 +12,7 @@ class RoundsController < ApplicationController
   # GET /rounds/new
   def new
     @round = @tournament.rounds.build
-    @round.games.build  # start with at least one game
+    @round.games.build # start with at least one game
     @form_for = [@tournament, @round]
   end
 
@@ -28,11 +28,11 @@ class RoundsController < ApplicationController
 
     respond_to do |format|
       if @round.save
-        format.html { redirect_to @round, notice: 'Round was successfully created.' }
+        format.html do redirect_to @round, notice: 'Round was successfully created.' end
         format.json { render :show, status: :created, location: @round }
       else
         @form_for = [@tournament, @round]
-        format.html { render :new }
+        format.html do render :new end
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
     end
@@ -43,11 +43,11 @@ class RoundsController < ApplicationController
   def update
     respond_to do |format|
       if @round.update(round_params)
-        format.html { redirect_to @round, notice: 'Round was successfully updated.' }
+        format.html do redirect_to @round, notice: 'Round was successfully updated.' end
         format.json { render :show, status: :ok, location: @round }
       else
         @form_for = @round
-        format.html { render :edit }
+        format.html do render :edit end
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
     end
@@ -59,7 +59,9 @@ class RoundsController < ApplicationController
     tournament = @round.tournament
     @round.destroy
     respond_to do |format|
-      format.html { redirect_to tournament_url(tournament), notice: 'Round was successfully destroyed.' }
+      format.html do
+        redirect_to tournament_url(tournament), notice: 'Round was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
@@ -70,17 +72,17 @@ class RoundsController < ApplicationController
 
   # PUT /rounds/1/bet
   def update_bet
-    respond_to do |format|  # TODO
+    respond_to do |format| # TODO
       # sanitize bets
       bets = params.require(:bets)
       if @round.update_bets(bets, current_user)
-        format.html { redirect_to round_path(@round), notice: 'Bets were successfully updated.' }
+        format.html do redirect_to round_path(@round), notice: 'Bets were successfully updated.' end
         format.json { render :show, status: :ok, location: @round }
       else
-        format.html {
+        format.html do
           @bets = @round.bets current_user
           render :bet
-        }
+        end
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
     end
@@ -91,24 +93,28 @@ class RoundsController < ApplicationController
     send_data @round.calendar, content_type: 'text/calendar', filename: "round_#{@round.id}.ics"
   end
 
-
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_round
-      @round = Round.find(params[:id])
-    end
 
-    def set_bets
-      @bets = @round.bets current_user
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_round
+    @round = Round.find(params[:id])
+  end
 
-    def set_tournament
-      @tournament = Tournament.find(params[:tournament_id])
-    end
+  def set_bets
+    @bets = @round.bets current_user
+  end
 
+  def set_tournament
+    @tournament = Tournament.find(params[:tournament_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def round_params
-      params.require(:round).permit(:name, :expiration_date, :tournament_id, games_attributes: [:id, :description, :team1, :team2, :start_time, :bet_points, :result, :_destroy])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def round_params
+    params.require(:round).permit(:name, :expiration_date, :tournament_id,
+                                  games_attributes: [
+                                    :id, :description, :team1,
+                                    :team2, :start_time,
+                                    :bet_points, :result, :_destroy
+                                  ])
+  end
 end

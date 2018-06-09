@@ -6,11 +6,11 @@ describe RoundsController do
   let(:round) { create(:round, tournament: tournament) }
 
   describe 'GET #show' do
-    let(:game) {create(:game, round: round)}
+    let(:game) { create(:game, round: round) }
     before do
       sign_in user
       game
-      get :show, params: {id: round.id}
+      get :show, params: { id: round.id }
     end
     it { expect(assigns(:round)).to eq(round) }
     it "assigns bets" do
@@ -23,12 +23,12 @@ describe RoundsController do
   end
 
   describe 'GET #bet' do
-    let(:game) {create(:game, round: round)}
+    let(:game) { create(:game, round: round) }
 
     before do
       game
       sign_in user
-      get :bet, params: {id: round.id}
+      get :bet, params: { id: round.id }
     end
     it { expect(assigns(:round)).to eq(round) }
     it "assigns bets" do
@@ -53,13 +53,13 @@ describe RoundsController do
         new_bets = {
           game1.id => Bet.answers[:tie],
           game2.id => Bet.answers[:team1],
-          game3.id => Bet.answers[:team2]
+          game3.id => Bet.answers[:team2],
         }
 
-        put :update_bet, params: {id: round.id, bets:new_bets}
+        put :update_bet, params: { id: round.id, bets: new_bets }
       end
       it "should update bets" do
-        expect(Bet.all.each{|b| b.answer }).to all(be)
+        expect(Bet.all.each(&:answer)).to all(be)
       end
       it { expect(response).to redirect_to(round) }
     end
@@ -72,10 +72,10 @@ describe RoundsController do
         game2
         game3
 
-        put :update_bet, params: {id: round.id, bets:new_bets}
+        put :update_bet, params: { id: round.id, bets: new_bets }
       end
       it "should not update bets" do
-        expect(Bet.all.each{|b| b.answer }).to all(be_nil)
+        expect(Bet.all.each(&:answer)).to all(be_nil)
       end
       it { is_expected.to render_template :bet }
     end
@@ -85,16 +85,16 @@ describe RoundsController do
     context "not admin" do
       before do
         sign_in user
-        get :new, params: {tournament_id: tournament.id}
+        get :new, params: { tournament_id: tournament.id }
       end
-      it { expect(response).to have_http_status 401 } 
+      it { expect(response).to have_http_status 401 }
     end
 
     context "admin" do
       let(:user) { create(:admin) }
       before do
         sign_in user
-        get :new, params: {tournament_id: tournament.id}
+        get :new, params: { tournament_id: tournament.id }
       end
       it { is_expected.to render_with_layout :application }
       it { is_expected.to render_template :new }
@@ -106,16 +106,16 @@ describe RoundsController do
     context "not admin" do
       before do
         sign_in user
-        get :edit, params: {id: round.id}
+        get :edit, params: { id: round.id }
       end
-      it { expect(response).to have_http_status 401 } 
+      it { expect(response).to have_http_status 401 }
     end
 
     context "admin" do
       let(:user) { create(:admin) }
       before do
         sign_in user
-        get :edit, params: {id: round.id}
+        get :edit, params: { id: round.id }
       end
 
       it { is_expected.to render_with_layout :application }
@@ -131,9 +131,10 @@ describe RoundsController do
         sign_in user
       end
       it {
-        expect { post :create, params: {tournament_id: tournament.id, round: round_params} }.not_to change{Round.count}
+        expect do
+          post :create, params: { tournament_id: tournament.id, round: round_params }
+        end.not_to(change { Round.count })
       }
-
     end
 
     context "admin" do
@@ -142,17 +143,19 @@ describe RoundsController do
         sign_in user
       end
       it {
-        expect { post :create, params: {tournament_id: tournament.id, round: round_params} }.to change{Round.count}.by(1)
+        expect do
+          post :create, params: { tournament_id: tournament.id, round: round_params }
+        end.to change { Round.count }.by(1)
       }
     end
   end
 
   describe 'PUT #update' do
-    let(:attr) {attributes_for(:round_with_games, name: "NEW NAME")}
+    let(:attr) { attributes_for(:round_with_games, name: "NEW NAME") }
     context "not admin" do
       before do
         sign_in user
-        put :update, params: {id: round.id, round:attr}
+        put :update, params: { id: round.id, round: attr }
         tournament.reload
       end
       it {
@@ -164,7 +167,7 @@ describe RoundsController do
       let(:user) { create(:admin) }
       before do
         sign_in user
-        put :update, params: {id: round.id, round:attr}
+        put :update, params: { id: round.id, round: attr }
         round.reload
       end
       it { expect(round.name).to eq("NEW NAME") }
@@ -179,7 +182,7 @@ describe RoundsController do
       end
       it {
         round
-        expect{delete :destroy, params:{id: round.id}}.not_to change{Round.count}
+        expect { delete :destroy, params: { id: round.id } }.not_to(change { Round.count })
       }
     end
 
@@ -190,14 +193,12 @@ describe RoundsController do
       end
       it {
         round
-        expect{delete :destroy, params:{id: round.id}}.to change{Round.count}.by(-1)
+        expect { delete :destroy, params: { id: round.id } }.to change { Round.count }.by(-1)
       }
       it "redirect to index" do
-        delete :destroy, params:{id: round.id}
+        delete :destroy, params: { id: round.id }
         expect(response).to redirect_to tournament_path(tournament)
       end
     end
   end
-
-
 end

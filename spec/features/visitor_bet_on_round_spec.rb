@@ -1,11 +1,19 @@
 require 'spec_helper'
 
 feature 'Visitor bet on round' do
-  let(:user) {create(:user)}
-  let(:tournament) {create(:tournament)}
-  let(:round) {create(:round, tournament: tournament)}
-  let(:game1) {create(:game, round: round, bet_points: 2, result: :tie, team1: "Argentina", team2: "Brazil", description: "Game 1 desc")}
-  let(:game2) {create(:game, round: round, bet_points: 3, result: :team1, team1: "Spain", team2: "Korea", description: "Game 2 desc")}
+  let(:user) { create(:user) }
+  let(:tournament) { create(:tournament) }
+  let(:round) { create(:round, tournament: tournament) }
+  let(:game1) do
+    create(:game, round: round, bet_points: 2,
+                  result: :tie, team1: "Argentina", team2: "Brazil",
+                  description: "Game 1 desc")
+  end
+  let(:game2) do
+    create(:game, round: round, bet_points: 3,
+                  result: :team1, team1: "Spain", team2: "Korea",
+                  description: "Game 2 desc")
+  end
 
   before do
     sign_in user
@@ -15,7 +23,7 @@ feature 'Visitor bet on round' do
 
   scenario 'Visit tournament' do
     visit tournament_path(tournament)
-    expect(page).to have_link(round.name, href:round_path(round))
+    expect(page).to have_link(round.name, href: round_path(round))
     expect(page).to have_link("Bet!", href: bet_round_path(round))
   end
 

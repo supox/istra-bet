@@ -10,16 +10,16 @@ RSpec.describe User, :type => :model do
 
     it "can have bad bets" do
       game = create(:game, result: :tie, bet_points: 3)
-      bet = create(:bet, user: user, game: game, answer: :team1)
+      create(:bet, user: user, game: game, answer: :team1)
 
       expect(user.score).to eq(0)
     end
 
     it "can have few bets" do
       game1 = create(:game, result: :tie, bet_points: 3)
-      bet1 = create(:bet, user: user, game: game1, answer: :team1)
+      create(:bet, user: user, game: game1, answer: :team1)
       game2 = create(:game, result: :team1, bet_points: 5)
-      bet2 = create(:bet, user: user, game: game2, answer: :team1)
+      create(:bet, user: user, game: game2, answer: :team1)
 
       expect(user.score).to eq(5)
     end
@@ -35,8 +35,7 @@ RSpec.describe User, :type => :model do
     it { is_expected.not_to allow_values('', nil, 'a', 'my_name_is').for(:email) }
 
     it { is_expected.to allow_values("Ilan", "Gal Goldshtein").for(:name) }
-    it { is_expected.not_to allow_values("", nil, "a"*200, "!@#$%").for(:name) }
-    it { is_expected.to validate_uniqueness_of(:name)}
+    it { is_expected.not_to allow_values("", nil, "a" * 200, "!@#$%").for(:name) }
+    it { is_expected.to validate_uniqueness_of(:name) }
   end
-
 end

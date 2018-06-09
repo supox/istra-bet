@@ -12,7 +12,7 @@ RSpec.describe Game, :type => :model do
     it { is_expected.not_to allow_values('', nil, 'a').for(:team2) }
     it { is_expected.to belong_to(:round) }
     it { is_expected.to allow_values("Round 1", "House A", "Bla").for(:description) }
-    it { is_expected.not_to allow_values("", nil, "a"*200).for(:description) }
+    it { is_expected.not_to allow_values("", nil, "a" * 200).for(:description) }
 
     it { is_expected.to allow_values(1, 2, 16).for(:bet_points) }
     it { is_expected.not_to allow_values("", nil, 0, -10).for(:bet_points) }
@@ -23,5 +23,4 @@ RSpec.describe Game, :type => :model do
       expect(game).not_to be_valid
     end
   end
-
 end

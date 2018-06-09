@@ -19,4 +19,3 @@ feature 'Visitor signs up' do
     expect(page).to have_content('Log-in')
   end
 end
-
