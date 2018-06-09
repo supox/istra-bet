@@ -1,24 +1,8 @@
-# README
+# BetiBam
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Simple Mondial and alike tournaments betting system.
 
-Things you may want to cover:
+* DB: Tournament has many rounds, Round has many games, Game has many bets and Bet has user and a game.
+* User management is delegate to Devise, which handles password, registration etc.
+* To run unitests: rails spec
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
