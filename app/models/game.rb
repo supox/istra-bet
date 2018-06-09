@@ -7,6 +7,7 @@ class Game < ApplicationRecord
   validates :team1, :team2, length: { in: 2..20 }
   validate :not_the_same_team
   validates :description, :team1, :team2, :start_time, :bet_points, presence: true
+  validates :bet_points, numericality: { greater_than: 0 }
     
   enum result: {unknown: 0, team1: 1, team2: 2, tie: 3}
 

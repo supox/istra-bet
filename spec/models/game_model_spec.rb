@@ -14,6 +14,9 @@ RSpec.describe Game, :type => :model do
     it { is_expected.to allow_values("Round 1", "House A", "Bla").for(:description) }
     it { is_expected.not_to allow_values("", nil, "a"*200).for(:description) }
 
+    it { is_expected.to allow_values(1, 2, 16).for(:bet_points) }
+    it { is_expected.not_to allow_values("", nil, 0, -10).for(:bet_points) }
+
     it "shouldn't have the same team" do
       game.team1 = "Argentina"
       game.team2 = "Argentina"

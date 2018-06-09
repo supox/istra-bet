@@ -38,22 +38,30 @@ RSpec.describe Bet, :type => :model do
   end
 
   context "validations" do
-    it "must have user" do
-      bet.user_id = nil
-      expect(bet).to_not be_valid
-    end
-
-    it "must have game" do
-      bet.game_id = nil
-      expect(bet).to_not be_valid
-    end
-
+    it { expect(bet).to be_valid }
+    it { is_expected.to allow_values(:tie, :team1, :team2).for(:answer) }
+    it { is_expected.to belong_to(:game) }
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.not_to allow_values(nil).for(:answer) }
     it "must have valid answer" do
       expect {bet.answer = :bla}.to raise_error(ArgumentError)
     end
+    it "Validate uniqueness" do 
+      user1 = create(:user)
+      user2 = create(:user)
+      game1 = create(:game)
+      game2 = create(:game)
+      bet11 = Bet.new(user_id: user1.id, game_id: game1.id, answer: :tie)
+      bet11.save!
+      bet11_2 = Bet.new(user_id: user1.id, game_id: game1.id, answer: :tie)
+      expect(bet11_2).not_to be_valid
 
-    it "can be valid" do
-      expect(bet).to be_valid
+      bet21 = Bet.new(user_id: user2.id, game_id: game1.id, answer: :tie)
+      expect(bet21).to be_valid
+      bet12 = Bet.new(user_id: user1.id, game_id: game2.id, answer: :tie)
+      expect(bet21).to be_valid
+
+      # expect(create(:bet)).to validate_uniqueness_of(:game).scoped_to(:user)
     end
   end
 end
