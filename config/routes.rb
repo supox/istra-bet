@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       end
     end
   end
-  root to: 'tournaments#index'
+
+  root to: 'pages#home'
+  get 'pages/home'
 
 end

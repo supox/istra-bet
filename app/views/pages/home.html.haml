@@ -1,0 +1,49 @@
+%h1.center Beti-Bam - Rules
+
+%h2 Betting:
+%ul
+  %li The bets are on the result after 90 minutes (not including extra time and penalties)
+  %li The bets on all the games of each round should be placed until one hour before the beginning of the round
+%h2 Scores:
+%ul
+  %li Group stage: 1 point for each game (total 48 points)
+  %li Round of 16: 2 points for each game (total 16 points)
+  %li Quarter finals: 4 points for each game (total 16 points)
+  %li Semi finals: 8 points for each game (total 16 points)
+  %li Final: 16 points
+%h2 Prizes:
+%ul
+  %li Participation: 50 NIS
+  %li The winner gets 70% of the money (rounded down to multiples of 50)
+  %li Second prize is 20% of the money (rounded down to multiples of 50)
+  %li Third prize is the rest of the money 
+
+%hr.col-xs-12
+%h1.center= link_to "Tournaments", tournaments_path
+%table.table.table-dark.table-striped.table-hover
+  %thead
+    %tr
+      %th Name
+      %th 
+  %tbody
+    - @tournaments.each do |tournament|
+      %tr
+        %td= link_to tournament.name, tournament
+        %td= tournament.description
+
+-if current_user.try(:admin?)
+  %hr.col-xs-12
+  %h1.center Users
+  %table.table.table-dark.table-striped.table-hover
+    %thead
+      %tr
+        %th Name
+        %th Email
+    %tbody
+      - @users.each do |user|
+        %tr
+          %td= user.name
+          %td= user.email
+
+.logo
+  = image_tag "logo.png"

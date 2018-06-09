@@ -1,6 +1,6 @@
 %h1 Active Tournaments
 
-%table.table
+%table.table.table-dark.table-striped.table-hover
   %thead
     %tr
       %th Name
@@ -21,6 +21,3 @@
 -if current_user.try(:admin?)
   %p
   = link_to 'New Tournament', new_tournament_path
-
-.logo
-  = image_tag "logo.png"
