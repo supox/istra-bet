@@ -88,7 +88,7 @@ class RoundsController < ApplicationController
 
   # GET /rounds/1/calendar
   def calendar
-    render plain: @round.calendar, content_type: 'text/calendar'
+    send_data @round.calendar, content_type: 'text/calendar', filename: "round_#{@round.id}.ics"
   end
 
 
