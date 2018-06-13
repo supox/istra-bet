@@ -1,0 +1,10 @@
+%p
+  %b Send mail:
+  = @round.name
+
+= simple_form_for @mail, url: send_mail_round_path(@round), method: :put do |f|
+  = f.input :subject
+  = f.input :body, as: :text
+
+  = f.submit 'Send mail', class: "btn btn-small btn-primary"
+  = link_to "Cancel", :back, class: "btn btn-small btn-info"

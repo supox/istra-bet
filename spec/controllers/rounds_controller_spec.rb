@@ -201,4 +201,58 @@ describe RoundsController do
       end
     end
   end
+
+  ## MAILS ##
+  describe 'GET #mail' do
+    context "not admin" do
+      before do
+        sign_in user
+        get :mail, params: { id: round.id }
+      end
+      it { expect(response).to have_http_status 401 }
+    end
+
+    context "admin" do
+      let(:user) { create(:admin) }
+      before do
+        sign_in user
+        get :mail, params: { id: round.id }
+      end
+
+      it { is_expected.to render_with_layout :application }
+      it { is_expected.to render_template :mail }
+      it { expect(assigns(:round)).to eq(round) }
+    end
+  end
+
+  describe 'PUT #send_mail' do
+    context "not admin" do
+      before do
+        sign_in user
+      end
+      it {
+        expect do
+          put :send_mail, params: { id: round.id, mail: { subject: "sub", text: "text" } }
+        end.not_to(change { ActionMailer::Base.deliveries.count })
+      }
+    end
+
+    context "admin" do
+      let(:user) { create(:admin) }
+      before do
+        sign_in user
+        create_list(:user, 3)
+      end
+      it {
+        expect do
+          put :send_mail, params: { id: round.id, round_mail: { subject: "this is the subject", body: "this is the body" } }
+        end.to(change { ActionMailer::Base.deliveries.count }.by(1))
+      }
+      it "shouldn't update for short subject" do
+        expect do
+          put :send_mail, params: { id: round.id, round_mail: { subject: "sub", body: "ttt" } }
+        end.not_to(change { ActionMailer::Base.deliveries.count })
+      end
+    end
+  end
 end

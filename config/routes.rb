@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         member do
           get 'bet'
           put 'update_bet'
+          get 'mail'
+          put 'send_mail'
           get 'calendar'
         end
       end

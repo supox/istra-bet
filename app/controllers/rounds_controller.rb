@@ -1,5 +1,5 @@
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar]
+  before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar, :mail, :send_mail]
   before_action :set_bets, only: [:show, :bet]
   before_action :set_tournament, only: [:new, :create]
   before_action :validate_admin, except: [:show, :bet, :update_bet, :calendar]
@@ -72,7 +72,7 @@ class RoundsController < ApplicationController
 
   # PUT /rounds/1/bet
   def update_bet
-    respond_to do |format| # TODO
+    respond_to do |format|
       # sanitize bets
       bets = params.require(:bets)
       if @round.update_bets(bets, current_user)
@@ -92,6 +92,28 @@ class RoundsController < ApplicationController
   def calendar
     send_data @round.calendar, content_type: 'text/calendar', filename: "round_#{@round.id}.ics"
   end
+
+  # PUT /rounds/1/mail
+  def mail
+    @mail = RoundMail.new(subject: "#{@round} is open for bets!", body: "Ready to bet on #{}?\r\nRound is now open!")
+  end
+
+  # PUT /rounds/1/send_mail
+  def send_mail
+    respond_to do |format|
+      data = params.require(:round_mail).permit(:body, :subject)
+      @mail = RoundMail.new(data)
+      if @mail.valid?
+        RoundsMailer.notify_round(@mail.body, @mail.subject, @round, User.confirmed.all).deliver_now
+        format.html { redirect_to round_path(@round), notice: 'Sent email successfully.' }
+        format.json { render :show, status: :ok, location: @round }
+      else
+        format.html { render :mail }
+        format.json { render json: @mail.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   private
 
