@@ -54,7 +54,7 @@ RSpec.describe Round, :type => :model do
       user = create(:user)
       game1 = create(:game, round: round)
       game2 = create(:game, round: round)
-      # game3 = create(:game, round: round)
+      create(:game, round: round)  # game 3
 
       new_bets = {
         game1.id => Bet.answers[:team1],
