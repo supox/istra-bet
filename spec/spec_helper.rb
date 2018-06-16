@@ -14,10 +14,13 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-if ENV['CODECOV_TOKEN']
-  require 'simplecov'
-  SimpleCov.start
-
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_filter "/test/"
+  add_filter "/spec/"
+  add_filter "/vendor/"
+end
+if ENV['CI'] == 'true'
   require 'codecov'
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
