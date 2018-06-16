@@ -1,5 +1,6 @@
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar, :mail, :send_mail]
+  before_action :set_round, only:
+      [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar, :mail, :send_mail]
   before_action :set_bets, only: [:show, :bet]
   before_action :set_tournament, only: [:new, :create]
   before_action :validate_admin, except: [:show, :bet, :update_bet, :calendar]
@@ -95,7 +96,10 @@ class RoundsController < ApplicationController
 
   # PUT /rounds/1/mail
   def mail
-    @mail = RoundMail.new(subject: "#{@round} is open for bets!", body: "Ready to bet on #{}?\r\nRound is now open!")
+    @mail = RoundMail.new(
+      subject: "#{@round} is open for bets!",
+      body: "Ready to bet on #{@round}?\r\nRound is now open!"
+    )
   end
 
   # PUT /rounds/1/send_mail
@@ -113,7 +117,6 @@ class RoundsController < ApplicationController
       end
     end
   end
-
 
   private
 

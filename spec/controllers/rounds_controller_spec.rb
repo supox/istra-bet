@@ -245,7 +245,10 @@ describe RoundsController do
       end
       it {
         expect do
-          put :send_mail, params: { id: round.id, round_mail: { subject: "this is the subject", body: "this is the body" } }
+          put :send_mail, params: {
+            id: round.id,
+            round_mail: { subject: "this is the subject", body: "this is the body" },
+          }
         end.to(change { ActionMailer::Base.deliveries.count }.by(1))
       }
       it "shouldn't update for short subject" do
