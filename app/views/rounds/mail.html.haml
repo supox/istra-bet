@@ -8,3 +8,16 @@
 
   = f.submit 'Send mail', class: "btn btn-small btn-primary"
   = link_to "Cancel", :back, class: "btn btn-small btn-info"
+
+%h3.center{style: "padding-top:2em;"}
+  Note
+%p
+  The email would be send with a heading:
+  %br
+  %samp
+    BetiBam - A new round is open for bet!
+%p
+  And a footer with a link to the current round:
+  %br
+  %samp
+    =link_to "Bet Now!", round_path(@round)
