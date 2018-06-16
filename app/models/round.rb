@@ -1,6 +1,6 @@
 class Round < ApplicationRecord
   belongs_to :tournament
-  has_many :games, inverse_of: :round, dependent: :destroy
+  has_many :games, -> { order 'created_at ASC' }, inverse_of: :round, dependent: :destroy
   validates_associated :tournament
   validates :name, length: { in: 2..100 }
   validates :name, :expiration_date, presence: true
