@@ -56,6 +56,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'rubocop'
+  gem 'codecov', require: false
 end
 
 group :production do
