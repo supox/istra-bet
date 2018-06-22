@@ -2,7 +2,7 @@
 %html{:lang => "en"}
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+    %meta{:content => "initial-scale=1", :name => "viewport"}
     = favicon_link_tag "favicon.png"
 
     %title Beti Bam
@@ -12,38 +12,38 @@
     = javascript_include_tag 'application'
 
   %body
-    %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
-      .container
-        %a.navbar-brand{href:  "/"} Beti Bam
-        %button.navbar-toggler{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
-          %span.navbar-toggler-icon
-        #navbarResponsive.collapse.navbar-collapse
-          %ul.navbar-nav.ml-auto
-            - if user_signed_in?
-              %li.nav-item.active
-                %a.nav-link{href: edit_user_registration_path}
-                  = "#{current_user} - #{current_user.score} points"
-                  %span.sr-only (current)
-              %li.nav-item
-                %a.nav-link{href:  destroy_user_session_path} Logout
-            - else
-              %li.nav-item
-                %a.nav-link{href:  new_user_session_path}
-                  Log-in
-              %li.nav-item
-                %a.nav-link{href:  new_user_registration_path} Sign-Up
+    .wrapper
+      %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
+        .container
+          %a.navbar-brand{href:  "/"} Beti Bam
+          %button.navbar-toggler{"aria-controls" => "navbarResponsive", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarResponsive", "data-toggle" => "collapse", :type => "button"}
+            %span.navbar-toggler-icon
+          #navbarResponsive.collapse.navbar-collapse
+            %ul.navbar-nav.ml-auto
+              - if user_signed_in?
+                %li.nav-item.active
+                  %a.nav-link{href: edit_user_registration_path}
+                    = "#{current_user} - #{current_user.score} points"
+                    %span.sr-only (current)
+                %li.nav-item
+                  %a.nav-link{href:  destroy_user_session_path} Logout
+              - else
+                %li.nav-item
+                  %a.nav-link{href:  new_user_session_path}
+                    Log-in
+                %li.nav-item
+                  %a.nav-link{href:  new_user_registration_path} Sign-Up
 
 
-    %main.container{role: "main"}
-      - if notice
-        %p#notice.alert.alert-info= notice
-      - if alert
-        %p#alert.alert.alert-danger= alert
-      = yield
+      %main.container{role: "main"}
+        - if notice
+          %p#notice.alert.alert-info= notice
+        - if alert
+          %p#alert.alert.alert-danger= alert
+        = yield
 
     %footer.footer.blue
       .container
         Source code: 
         %a{href: "https://github.com/supox/istra-bet", target: "_blank"}
           https://github.com/supox/istra-bet
-
