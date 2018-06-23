@@ -11,6 +11,15 @@
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
 
+    = javascript_include_tag "https://www.googletagmanager.com/gtag/js?id=UA-121309587-1", async: true
+    :javascript
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-121309587-1');
+
+
   %body
     .wrapper
       %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
