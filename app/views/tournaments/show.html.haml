@@ -17,7 +17,7 @@
           =link_to "Bet!", bet_round_path(round)
         - else
           ="No more bets"
-      %td= link_to "ics Calendar", calendar_round_path(round)
+      %td= link_to "ics Calendar", calendar_round_path(round), "data-turbolinks" => false
 
 %h3.center Scoreboard
 %table.table.table-dark.table-striped.table-hover
