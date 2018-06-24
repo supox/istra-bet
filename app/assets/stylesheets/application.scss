@@ -29,3 +29,10 @@ html, body {
   background-color: #ADD8E6;
   text-align: center;
 }
+
+@media only screen and (max-width: 600px) {
+  .my-table {
+    display: block;
+    overflow: auto;
+  }
+}
