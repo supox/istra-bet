@@ -32,5 +32,8 @@
 # Ignore rubymine dir
 .idea
 
+# Ignore vscode dir
+.vscode
+
 # Ignore codecov.io
 /coverage/*
