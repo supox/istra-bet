@@ -11,7 +11,7 @@
   = @round.expiration_date.to_formatted_s(:istra)
 %p
   %b Tournament:
-  = link_to @round.tournament, tournament_path
+  = link_to @round.tournament, tournament_path(@round.tournament)
 
 = simple_form_for :bet, url: update_bet_round_path(@round), method: :put do |f|
   %b Games:

@@ -14,6 +14,7 @@ feature 'Visitor bet on round' do
                   result: :team1, team1: "Spain", team2: "Korea",
                   description: "Game 2 desc")
   end
+  let(:round2) { create(:round, tournament: tournament) }
 
   before do
     sign_in user
@@ -47,4 +48,13 @@ feature 'Visitor bet on round' do
 
     expect(page).to have_content("#{user} - 3 points")
   end
+
+  scenario 'Visit round 2 bet should have the right tournament link' do
+    round
+    visit bet_round_path(round2)
+    click_link(tournament.name)
+
+    expect(page).to have_current_path(tournament_path(tournament))
+  end
+
 end
