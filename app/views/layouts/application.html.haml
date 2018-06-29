@@ -45,10 +45,8 @@
 
 
       %main.container{role: "main"}
-        - if notice
-          %p#notice.alert.alert-info= notice
-        - if alert
-          %p#alert.alert.alert-danger= alert
+        - flash.each do |key, value|
+          %p.alert.alert-info{id: key}= value
         = yield
 
     %footer.footer.blue
