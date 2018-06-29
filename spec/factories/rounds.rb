@@ -11,5 +11,15 @@ FactoryBot.define do
         create_list(:game, evaluator.games_count, round: round)
       end
     end
+    factory :expired_round_with_games do
+      transient do
+        games_count 5
+      end
+      after(:create) do |round, evaluator|
+        round.expiration_date = DateTime.now - 3.days
+        round.save!
+        create_list(:game, evaluator.games_count, round: round)
+      end
+    end
   end
 end

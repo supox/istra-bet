@@ -61,7 +61,7 @@ class RoundsController < ApplicationController
     @round.destroy
     respond_to do |format|
       format.html do
-        redirect_to tournament_url(tournament), notice: 'Round was successfully destroyed.'
+        redirect_to tournament_path(tournament), notice: 'Round was successfully destroyed.'
       end
       format.json { head :no_content }
     end
@@ -69,6 +69,7 @@ class RoundsController < ApplicationController
 
   # GET /rounds/1/bet
   def bet
+    redirect_to round_path(@round), flash: {error: "Round is closed for bets."} unless @round.open?
   end
 
   # PUT /rounds/1/bet

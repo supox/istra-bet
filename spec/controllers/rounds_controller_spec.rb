@@ -40,6 +40,18 @@ describe RoundsController do
     it { is_expected.to render_template :bet }
   end
 
+  describe 'GET #bet expired' do
+    let(:round) { create(:expired_round_with_games)}
+
+    before do
+      sign_in user
+      get :bet, params: { id: round.id }
+    end
+
+    it { expect(response).to redirect_to round_path(round) }
+    it { expect(flash[:error]).to match "Round is closed" }
+  end
+
   describe 'PUT #update_bet' do
     let(:game1) { create(:game, round: round) }
     let(:game2) { create(:game, round: round) }
