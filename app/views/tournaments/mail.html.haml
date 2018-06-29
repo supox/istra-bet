@@ -1,0 +1,10 @@
+%p
+  %b Send mail:
+  = @tournament.name
+
+= simple_form_for @mail, url: send_mail_tournament_path(@tournament), method: :put do |f|
+  = f.input :subject
+  = f.input :body, as: :text
+
+  = f.submit 'Send mail', class: "btn btn-small btn-primary"
+  = link_to "Cancel", :back, class: "btn btn-small btn-info"
