@@ -1,5 +1,5 @@
 class TournamentsController < ApplicationController
-  before_action :set_tournament, only: [:show, :edit, :update, :destroy]
+  before_action :set_tournament, only: [:show, :edit, :update, :destroy, :mail, :send_mail]
   before_action :validate_admin, except: [:index, :show]
 
   # GET /tournaments
@@ -62,6 +62,29 @@ class TournamentsController < ApplicationController
     end
   end
 
+  # PUT /tournaments/1/mail
+  def mail
+    @mail = TournamentMail.new(
+      subject: "#{@tournament}",
+      body: "Ready to bet on #{@tournament}?"
+    )
+  end
+
+  # PUT /tournament/1/send_mail
+  def send_mail
+    respond_to do |format|
+      data = params.require(:tournament_mail).permit(:body, :subject)
+      @mail = TournamentMail.new(data)
+      if @mail.valid?
+        TournamentsMailer.notify_tournament(@mail.body, @mail.subject, @tournament, User.confirmed.all).deliver_now
+        format.html { redirect_to tournament_path(@tournament), notice: 'Sent email successfully.' }
+        format.json { render :show, status: :ok, location: @tournament }
+      else
+        format.html { render :mail }
+        format.json { render json: @mail.errors, status: :unprocessable_entity }
+      end
+    end
+  end
   private
 
   # Use callbacks to share common setup or constraints between actions.

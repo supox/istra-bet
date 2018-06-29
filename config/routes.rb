@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :registrations => "registrations" }
 
   resources :tournaments, shallow: true do
+    member do
+      get 'mail'
+      put 'send_mail'
+    end
     resources :rounds, shallow: true, except: :index do
       member do
         get 'bet'
