@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :bet do
     game
     user
-    answer "tie"
+    answer { "tie" }
   end
 end

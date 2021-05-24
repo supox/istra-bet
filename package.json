@@ -1,5 +1,11 @@
 {
   "name": "istra-bet",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/ujs": "^5.2.6",
+    "turbolinks": "^5.2.0",
+    "@rails/activestorage": "^5.2.6",
+    "@rails/actioncable": "^5.2.6"
+  },
+  "version": "0.1.0"
 }
