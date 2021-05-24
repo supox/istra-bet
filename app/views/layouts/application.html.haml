@@ -6,6 +6,12 @@
     = favicon_link_tag "favicon.png"
 
     %title Beti Bam
+    %meta{:name => "description", :content => "Tournaments betting system"} 
+    %meta{:property=> "og:title", :content => "BetiBam betting system"}
+    %meta{:property=> "og:url", :content => "https://betibam.herokuapp.com/"}
+    %meta{:property=> "og:description", :content => "Tournaments betting system"}
+    %meta{:property=> "og:image", :content => "//betibam.herokuapp.com/assets/logo-654aefbdc0b64545844bb49a92543ba687b5312c8c23d12d8641bf1d5488097d.png"}
+
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all'
