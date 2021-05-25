@@ -15,7 +15,7 @@ RSpec.describe TournamentsMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['no-reply@betibam.herokuapp.com'])
+      expect(mail.reply_to).to eq(['no-reply@betibam.herokuapp.com'])
     end
 
     it 'contains tournament url' do
