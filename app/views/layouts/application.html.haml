@@ -41,13 +41,13 @@
                     = "#{current_user} - #{current_user.score} points"
                     %span.sr-only (current)
                 %li.nav-item
-                  %a.nav-link{href:  destroy_user_session_path} Logout
+                  = link_to "Logout", destroy_user_session_path, method: 'delete', class: 'nav-link'
               - else
                 %li.nav-item
-                  %a.nav-link{href:  new_user_session_path}
+                  %a.nav-link{href: new_user_session_path}
                     Log-in
                 %li.nav-item
-                  %a.nav-link{href:  new_user_registration_path} Sign-Up
+                  %a.nav-link{href: new_user_registration_path} Sign-Up
 
 
       %main.container{role: "main"}
