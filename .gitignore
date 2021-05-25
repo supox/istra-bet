@@ -37,3 +37,4 @@
 
 # Ignore codecov.io
 /coverage/*
+sendgrid.env
