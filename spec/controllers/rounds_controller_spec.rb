@@ -261,8 +261,19 @@ describe RoundsController do
             id: round.id,
             round_mail: { subject: "this is the subject", body: "this is the body" },
           }
-        end.to(change { ActionMailer::Base.deliveries.count }.by(1))
+        end.to(change { ActionMailer::Base.deliveries.count }.by(4))
       }
+      it "shouldn't send to unsubscribed" do
+        expect do
+          u = User.first
+          u.subscription = false
+          u.save!
+          put :send_mail, params: {
+            id: round.id,
+            round_mail: { subject: "this is the subject", body: "this is the body" },
+          }
+        end.to(change { ActionMailer::Base.deliveries.count }.by(3))
+      end
       it "shouldn't update for short subject" do
         expect do
           put :send_mail, params: { id: round.id, round_mail: { subject: "sub", body: "ttt" } }

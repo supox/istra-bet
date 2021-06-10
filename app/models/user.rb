@@ -11,6 +11,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   scope :confirmed, -> { where("confirmed_at IS NOT NULL") }
+  scope :subscribed, -> { where("confirmed_at IS NOT NULL AND subscription") }
 
   def to_s
     name

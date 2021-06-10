@@ -1,8 +1,10 @@
 class TournamentsMailer < ApplicationMailer
-  def notify_tournament(text, subject, tournament, users)
+  def notify_tournament(text, subject, tournament, user)
     @text = text
     @tournament = tournament
+    @unsubscribe = Rails.application.message_verifier(:unsubscribe).generate(user.id)
 
-    mail bcc: users.map(&:email), subject: subject
+    mail to: user.email, subject: subject
   end
 end
+

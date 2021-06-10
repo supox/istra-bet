@@ -109,7 +109,7 @@ class RoundsController < ApplicationController
       data = params.require(:round_mail).permit(:body, :subject)
       @mail = RoundMail.new(data)
       if @mail.valid?
-        RoundsMailer.notify_round(@mail.body, @mail.subject, @round, User.confirmed.all).deliver_now
+        User.subscribed.each{|user| RoundsMailer.notify_round(@mail.body, @mail.subject, @round, user).deliver_later}
         format.html { redirect_to round_path(@round), notice: 'Sent email successfully.' }
         format.json { render :show, status: :ok, location: @round }
       else

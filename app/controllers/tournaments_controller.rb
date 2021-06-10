@@ -76,7 +76,7 @@ class TournamentsController < ApplicationController
       data = params.require(:tournament_mail).permit(:body, :subject)
       @mail = TournamentMail.new(data)
       if @mail.valid?
-        TournamentsMailer.notify_tournament(@mail.body, @mail.subject, @tournament, User.confirmed.all).deliver_now
+        User.subscribed.each{|user| TournamentsMailer.notify_tournament(@mail.body, @mail.subject, @tournament, user).deliver_later }
         format.html { redirect_to tournament_path(@tournament), notice: 'Sent email successfully.' }
         format.json { render :show, status: :ok, location: @tournament }
       else

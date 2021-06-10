@@ -1,4 +1,4 @@
-%h1 BetiBam
+%h1= link_to 'BetiBam', bet_round_url(@round)
 
 %p
   A new round is open for bet!
@@ -8,3 +8,7 @@
 
 %p
   = link_to 'Bet Now!', bet_round_url(@round)
+
+%p
+  = link_to 'Unsubscribe', settings_unsubscribe_url(id: @unsubscribe)
+
