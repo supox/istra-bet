@@ -6,7 +6,8 @@
   = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
   = f.button :submit, "Log in", class: "btn btn-small btn-primary" 
 
-= link_to "New user?", new_registration_path(resource_name)
+%hr
 \|
+= link_to "New user?", new_registration_path(resource_name)
 
 = render "devise/shared/links"
