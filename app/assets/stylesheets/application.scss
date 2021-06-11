@@ -36,3 +36,8 @@ html, body {
     overflow: auto;
   }
 }
+
+.blocked_legend legend {
+  display: contents;
+}
+
