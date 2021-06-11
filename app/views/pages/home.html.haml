@@ -39,11 +39,13 @@
       %tr
         %th Name
         %th Email
+        %th Subscribed
     %tbody
       - @users.each do |user|
         %tr
           %td= user.name
           %td= user.email
+          %td= user.subscription
 
 .logo
   = image_tag "logo.png"

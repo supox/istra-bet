@@ -1,0 +1,15 @@
+%h1
+  Unsubscribe from BetiBam Emails
+%p
+  By unsubscribing, you will no longer receive email...
+
+= simple_form_for :user, url: settings_update_path(id: @user.id), method: :patch do |f|
+  %p
+    = f.label :subscription do
+      = f.input_field :subscription, as: :boolean, boolean_style: :inline, checked_value: false, unchecked_value: true
+      %span
+        Don't send me anymore updates
+
+  = f.submit 'Save', class: "btn btn-small btn-primary"
+  = link_to "Cancel", :back, class: "btn btn-small btn-info"
+
