@@ -52,8 +52,8 @@ class Round < ApplicationRecord
 
       games.each do |game|
         ical.event do |event|
-          event.dtstart = game.start_time
-          event.dtend = game.start_time + 90.minutes
+          event.dtstart = game.start_time.to_datetime
+          event.dtend = (game.start_time + 90.minutes).to_datetime
           event.summary = "#{game.description} - #{game.team1} vs #{game.team2}"
         end
       end
