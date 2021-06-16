@@ -36,6 +36,18 @@
           %td= bet.game.result_name
           %td= bet.answer_name
 
+- if current_user.try(:admin?)
+  %h3.center User who already bet
+  %table.table.table-dark.table-striped.table-hover
+    %tr
+      %th Index
+      %th User
+    - @round.users_who_bet.each_with_index do |user, index|
+      %tr
+        %td= index + 1
+        %td= user
+
+
 - if @round.open?
   = link_to 'Bet!', bet_round_path(@round), class: "btn btn-small btn-primary"
 - if current_user.try(:admin?)

@@ -22,6 +22,16 @@ class Round < ApplicationRecord
     end
   end
 
+  def users_who_bet
+    s = Set.new
+    games.each do |game|
+      game.bets.each do |bet|
+        s.add(bet.user_id)
+      end
+    end
+    s.map{ |user_id| User.find(user_id) }
+  end
+
   def update_bets(new_bets, user)
     unless open?
       errors.add(:base, "Round already closed.")
