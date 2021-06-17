@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "rails_helper"
 
-feature 'Visitor bet on round' do
+RSpec.feature 'Visitor bet on round' do
   let(:user) { create(:user) }
   let(:tournament) { create(:tournament) }
   let(:round) { create(:round, tournament: tournament) }
@@ -26,6 +26,7 @@ feature 'Visitor bet on round' do
     visit tournament_path(tournament)
     expect(page).to have_link(round.name, href: round_path(round))
     expect(page).to have_link("Bet!", href: bet_round_path(round))
+    expect(page).to have_link("ics Calendar", href: calendar_round_path(round))
   end
 
   scenario 'Visit round bet' do
