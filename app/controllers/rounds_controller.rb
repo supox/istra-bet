@@ -13,7 +13,11 @@ class RoundsController < ApplicationController
   # GET /rounds/new
   def new
     @round = @tournament.rounds.build
-    @round.games.build # start with at least one game
+    if params['multi_choice'].present?
+      @round.multi_choices.build # start with at least one multi-choice
+    else
+      @round.games.build # start with at least one game
+    end
     @form_for = [@tournament, @round]
   end
 
@@ -76,13 +80,27 @@ class RoundsController < ApplicationController
   def update_bet
     respond_to do |format|
       # sanitize bets
-      bets = params.require(:bets)
-      if @round.update_bets(bets, current_user)
+      bets_valid = if @round.games.empty?
+        true
+      else
+        bets = params.require(:bets)
+        @round.update_bets(bets, current_user)
+      end
+
+      mc_bets_valid = if @round.multi_choices.empty?
+        true
+      else
+        mc_bets = params.require(:mc_bets)
+        @round.update_multi_choice_bets(mc_bets, current_user)
+      end
+
+      if bets_valid && mc_bets_valid
         format.html do redirect_to round_path(@round), notice: 'Bets were successfully updated.' end
         format.json { render :show, status: :ok, location: @round }
       else
         format.html do
           @bets = @round.bets current_user
+          @mc_bets = @round.mc_bets current_user
           render :bet
         end
         format.json { render json: @round.errors, status: :unprocessable_entity }
@@ -128,6 +146,7 @@ class RoundsController < ApplicationController
 
   def set_bets
     @bets = @round.bets current_user
+    @mc_bets = @round.mc_bets current_user
   end
 
   def set_tournament
@@ -141,6 +160,11 @@ class RoundsController < ApplicationController
                                     :id, :description, :team1,
                                     :team2, :start_time,
                                     :bet_points, :result, :_destroy
-                                  ])
+                                  ],
+                                 multi_choices_attributes: [
+                                    :id, :description, { options: [] },
+                                    :bet_points, :result, :_destroy
+                                  ] )
+      
   end
 end

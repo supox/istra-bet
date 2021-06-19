@@ -9,6 +9,15 @@
     = render 'game_fields', f: g
   %div
     = link_to_add_fields "Add another game", f, :games
+
+  -# MULTI CHOICES #-
+  %br
+  %h3.center Multi-choice bets
+  = f.fields_for :multi_choices do |m|
+    = render 'multi_choice_fields', f: m
+  %div
+    = link_to_add_fields "Add another multi-choice bet", f, :multi_choices
+
   = f.submit 'Save', class: "btn btn-small btn-primary"
   = link_to "Cancel", :back, class: "btn btn-small btn-info"
 

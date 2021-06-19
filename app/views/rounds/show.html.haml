@@ -13,28 +13,49 @@
   %b Tournament:
   = link_to @round.tournament, tournament_path(@round.tournament)
 
-%p
-  %b Games:
-  %table.table.table-dark.table-striped.table-hover.my-table
+- if not @bets.empty?
+  %p
+    %b Games:
+    %table.table.table-dark.table-striped.table-hover.my-table
 
-    %tbody
-      %tr
-        %th Description
-        %th Team 1
-        %th Team 2
-        %th Time
-        %th Points
-        %th Result
-        %th My Bet
-      - @bets.each do |bet|
+      %tbody
         %tr
-          %td= bet.game.description
-          %td= bet.game.team1
-          %td= bet.game.team2
-          %td= bet.game.start_time.to_formatted_s(:istra)
-          %td= bet.game.bet_points
-          %td= bet.game.result_name
-          %td= bet.answer_name
+          %th Description
+          %th Team 1
+          %th Team 2
+          %th Time
+          %th Points
+          %th Result
+          %th My Bet
+        - @bets.each do |bet|
+          %tr
+            %td= bet.game.description
+            %td= bet.game.team1
+            %td= bet.game.team2
+            %td= bet.game.start_time.to_formatted_s(:istra)
+            %td= bet.game.bet_points
+            %td= bet.game.result_name
+            %td= bet.answer_name
+
+- if not @mc_bets.empty?
+  %p
+    %b Multi-Choice:
+    %table.table.table-dark.table-striped.table-hover.my-table
+
+      %tbody
+        %tr
+          %th Description
+          %th Options
+          %th Points
+          %th Result
+          %th My Bet
+        - @mc_bets.each do |mc|
+          %tr
+            %td= mc.multi_choice.description
+            %td= mc.multi_choice.options_str
+            %td= mc.multi_choice.bet_points
+            %td= mc.multi_choice.result
+            %td= mc.answer_name
 
 - if current_user.try(:admin?)
   %h3.center User who already bet

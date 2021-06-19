@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :bets, dependent: :destroy
+  has_many :multi_choice_bets, dependent: :destroy
 
   validates :name, length: { in: 2..100 }
   validates_uniqueness_of :name
@@ -18,7 +19,7 @@ class User < ApplicationRecord
   end
 
   def score
-    bets.sum(&:points)
+    bets.sum(&:points) + multi_choice_bets.sum(&:points)
   end
 
   private

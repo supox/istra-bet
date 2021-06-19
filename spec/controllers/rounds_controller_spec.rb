@@ -4,6 +4,7 @@ describe RoundsController do
   let(:user) { create(:user) }
   let(:tournament) { create(:tournament) }
   let(:round) { create(:round, tournament: tournament) }
+  let(:mc_round) { create(:round, tournament: tournament) }
 
   describe 'GET #show' do
     let(:game) { create(:game, round: round) }
@@ -68,7 +69,7 @@ describe RoundsController do
           game3.id => Bet.answers[:team2],
         }
 
-        put :update_bet, params: { id: round.id, bets: new_bets }
+        put :update_bet, params: { id: round.id, bets: new_bets, mc_bets: {} }
       end
       it "should update bets" do
         expect(Bet.all.each(&:answer)).to all(be)
@@ -84,13 +85,51 @@ describe RoundsController do
         game2
         game3
 
-        put :update_bet, params: { id: round.id, bets: new_bets }
+        put :update_bet, params: { id: round.id, bets: new_bets, mc_bets: {} }
       end
       it "should not update bets" do
         expect(Bet.all.each(&:answer)).to all(be_nil)
       end
       it { is_expected.to render_template :bet }
     end
+
+    context "Good mcs" do
+      before do
+        multi_choice1 = create(:multi_choice, round: mc_round)
+        multi_choice2 = create(:multi_choice, round: mc_round)
+        multi_choice3 = create(:multi_choice, round: mc_round)
+        new_mc_bets = {
+          multi_choice1.id => multi_choice1.options[0],
+          multi_choice2.id => multi_choice2.options[1],
+          multi_choice3.id => multi_choice3.options[0],
+        }
+
+        put :update_bet, params: { id: mc_round.id, bets: {}, mc_bets: new_mc_bets }
+      end
+      it "should update bets" do
+        expect(MultiChoiceBet.all.each(&:answer)).to all(be)
+      end
+      it { expect(response).to redirect_to(mc_round) }
+    end
+
+    context "Bad bets" do
+      before do
+        multi_choice1 = create(:multi_choice, round: mc_round)
+        multi_choice2 = create(:multi_choice, round: mc_round)
+        multi_choice3 = create(:multi_choice, round: mc_round)
+
+        new_mc_bets = {
+          multi_choice1.id => multi_choice1.options[0],
+        }
+
+        put :update_bet, params: { id: mc_round.id, bets: {}, mc_bets: new_mc_bets }
+      end
+      it "should not update bets" do
+        expect(MultiChoiceBet.all.each(&:answer)).to all(be_nil)
+      end
+      it { is_expected.to render_template :bet }
+    end
+
   end
 
   describe 'GET #new' do

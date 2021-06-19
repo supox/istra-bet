@@ -35,6 +35,8 @@
 -if current_user.try(:admin?)
   = link_to 'Add a new round', new_tournament_round_path(@tournament)
   \|
+  = link_to 'Add a new multi-choice round', new_tournament_round_path(@tournament, multi_choice: true)
+  \|
   = link_to 'Edit tournament details', edit_tournament_path(@tournament)
   \|
   = link_to 'Send email to users', mail_tournament_path(@tournament)

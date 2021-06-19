@@ -15,13 +15,26 @@ RSpec.describe User, :type => :model do
       expect(user.score).to eq(0)
     end
 
+    it "can have bad mc bets" do
+      mc = create(:multi_choice, options: ["Team 1", "Team 2"], result: "Team 1", bet_points: 3)
+      create(:multi_choice_bet, user: user, multi_choice: mc, answer: "Team 2")
+
+      expect(user.score).to eq(0)
+    end
+
     it "can have few bets" do
       game1 = create(:game, result: :tie, bet_points: 3)
       create(:bet, user: user, game: game1, answer: :team1)
       game2 = create(:game, result: :team1, bet_points: 5)
       create(:bet, user: user, game: game2, answer: :team1)
 
-      expect(user.score).to eq(5)
+      multi_choice1 = create(:multi_choice, options: ["Team 1", "Team 2"], result: "Team 1", bet_points: 9)
+      create(:multi_choice_bet, user: user, multi_choice: multi_choice1, answer: "Team 2")
+
+      multi_choice2 = create(:multi_choice, options: ["Team 3", "Team 4"], result: "Team 3", bet_points: 11)
+      create(:multi_choice_bet, user: user, multi_choice: multi_choice2, answer: "Team 3")
+
+      expect(user.score).to eq(16)
     end
   end
 

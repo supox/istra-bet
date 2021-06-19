@@ -1,0 +1,14 @@
+.card.card-default
+  %h5.card-header
+    -if f.object.new_record?
+      Add a new multi choice bet
+    - else
+      Edit Multi Choice bet
+  .card-body
+    %fieldset
+      = f.input :description
+      = f.input :options, as: :array
+      = f.input :bet_points
+      = f.input :result
+      = f.input :_destroy, :as => :boolean, :input_html => { :checked => "" }, boolean_style: :inline, label: "Delete Multi Choice Bet"
+%br

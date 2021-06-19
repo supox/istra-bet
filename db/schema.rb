@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_10_182158) do
+ActiveRecord::Schema.define(version: 2021_06_19_095729) do
 
   create_table "bets", force: :cascade do |t|
     t.integer "answer"
@@ -34,6 +34,25 @@ ActiveRecord::Schema.define(version: 2021_06_10_182158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["round_id"], name: "index_games_on_round_id"
+  end
+
+  create_table "multi_choice_bets", force: :cascade do |t|
+    t.integer "multi_choice_id"
+    t.integer "user_id"
+    t.text "answer"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "multi_choices", force: :cascade do |t|
+    t.string "description", null: false
+    t.text "options", default: "--- []\n"
+    t.integer "bet_points"
+    t.text "result"
+    t.integer "round_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["round_id"], name: "index_multi_choices_on_round_id"
   end
 
   create_table "rounds", force: :cascade do |t|
@@ -80,5 +99,6 @@ ActiveRecord::Schema.define(version: 2021_06_10_182158) do
   add_foreign_key "bets", "games"
   add_foreign_key "bets", "users"
   add_foreign_key "games", "rounds"
+  add_foreign_key "multi_choices", "rounds"
   add_foreign_key "rounds", "tournaments"
 end

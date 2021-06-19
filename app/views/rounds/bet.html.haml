@@ -14,29 +14,49 @@
   = link_to @round.tournament, tournament_path(@round.tournament)
 
 = simple_form_for :bet, url: update_bet_round_path(@round), method: :put do |f|
-  %b Games:
-  %table.table.table-dark.table-striped.table-hover.my-table
-    %tbody
-      %tr
-        %th Description
-        %th Team 1
-        %th Team 2
-        %th Time
-        %th Points
-        %th Result
-      - @bets.each do |bet|
+  - if not @bets.empty?
+    %b Games:
+    %table.table.table-dark.table-striped.table-hover.my-table
+      %tbody
         %tr
-          %td= bet.game.description
-          %td= bet.game.team1
-          %td= bet.game.team2
-          %td= bet.game.start_time.to_formatted_s(:istra)
-          %td= bet.game.bet_points
-          %td.blocked_legend{id: "bet_on_game_#{bet.game.id}"}
+          %th Description
+          %th Team 1
+          %th Team 2
+          %th Time
+          %th Points
+          %th Result
+        - @bets.each do |bet|
+          %tr
+            %td= bet.game.description
+            %td= bet.game.team1
+            %td= bet.game.team2
+            %td= bet.game.start_time.to_formatted_s(:istra)
+            %td= bet.game.bet_points
+            %td.blocked_legend{id: "bet_on_game_#{bet.game.id}"}
+              = f.input :answer,
+                as: :radio_buttons,
+                collection: bet.answer_hash,
+                checked: Bet.answers[bet.answer],
+                input_html: { name: "bets[#{bet.game.id}]" }
+
+  - if not @mc_bets.empty?
+    %b Multi-Choice:
+    %table.table.table-dark.table-striped.table-hover.my-table
+      %tbody
+        %tr
+          %th Description
+          %th Points
+          %th Result
+      - @mc_bets.each do |bet|
+        %tr
+          %td= bet.multi_choice.description
+          %td= bet.multi_choice.bet_points
+          %td.blocked_legend{id: "bet_on_game_#{bet.multi_choice.id}"}
             = f.input :answer,
               as: :radio_buttons,
-              collection: bet.answer_hash,
-              checked: Bet.answers[bet.answer],
-              input_html: { name: "bets[#{bet.game.id}]" }
+              collection: bet.multi_choice.options,
+              checked: bet.answer,
+              input_html: { name: "mc_bets[#{bet.multi_choice.id}]" }
 
   = f.submit 'Bet!', class: "btn btn-small btn-primary"
-  = link_to "Cancel", :back, class: "btn btn-small btn-info"
+  = link_to "Cancel", round_path(@round), class: "btn btn-small btn-info"
