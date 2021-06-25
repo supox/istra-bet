@@ -72,6 +72,6 @@
 - if @round.open?
   = link_to 'Bet!', bet_round_path(@round), class: "btn btn-small btn-primary"
 - if current_user.try(:admin?)
-  = link_to 'Edit round', edit_round_path(@round), class: "btn btn-small btn-danger", "data-turbolinks" => false
+  = link_to 'Edit round', edit_round_path(@round), class: "btn btn-small btn-danger"
   = link_to 'Send mail', mail_round_path(@round), class: "btn btn-small btn-danger"
 = link_to 'Back', tournament_path(@round.tournament_id), class: "btn btn-small btn-info"
