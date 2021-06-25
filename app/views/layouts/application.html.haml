@@ -50,7 +50,7 @@
                   %a.nav-link{href: new_user_registration_path} Sign-Up
 
 
-      %main.container{role: "main"}
+      %main.container
         - flash.each do |key, value|
           %p.alert.alert-info{id: key}= value
         = yield

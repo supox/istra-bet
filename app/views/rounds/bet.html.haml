@@ -33,11 +33,13 @@
             %td= bet.game.start_time.to_formatted_s(:istra)
             %td= bet.game.bet_points
             %td.blocked_legend{id: "bet_on_game_#{bet.game.id}"}
-              = f.input :answer,
-                as: :radio_buttons,
-                collection: bet.answer_hash,
-                checked: Bet.answers[bet.answer],
-                input_html: { name: "bets[#{bet.game.id}]" }
+              = f.collection_radio_buttons :answer,
+                bet.answer_hash,
+                :second,
+                :first,
+                html_options: {class: "form_check"},
+                item_wrapper_tag: false,
+                checked: Bet.answers[bet.answer] do |b| _id = "bet_id_#{bet.game.id}_#{b.value}"; lab = b.label(for: _id, class: "collection_radio_buttons") {b.radio_button(name: "bets[#{bet.game.id}]", id: _id, class: "form-check-input radio_buttons required") + b.text}; "<div class='form_check'>#{lab}</div>" end
 
   - if not @mc_bets.empty?
     %b Multi-Choice:
