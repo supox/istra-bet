@@ -49,19 +49,24 @@ class Round < ApplicationRecord
     s.map{ |user_id| User.find(user_id) }
   end
 
-  def all_users_bets
-    h = Hash.new { |h,k| h[k] = {games: {}, mcs: {}} }
-    games.each do |game|
+  def all_users_bets_table
+    header = ["User"]
+    result = ["Result"]
+    all_games = (games + multi_choices)
+    h = Hash.new { |h,k| h[k] = Array.new(all_games.length) }
+    all_games.each_with_index do |game, col_index|
+      header.append(game.short_description)
+      result.append(game.result_name)
       game.bets.each do |bet|
-        h[bet.user_id][:games][game.id] = bet.answer_name
-      end
-    end
-    multi_choices.each do |mc|
-      mc.multi_choice_bets.each do |bet|
-        h[bet.user_id][:mcs][mc.id] = bet.answer_name
+        h[bet.user_id][col_index] = bet.answer_name
       end
     end
     h.transform_keys{ |user_id| User.find(user_id) }
+    values = h.collect do |user_id, row|
+      [User.find(user_id)] + row
+    end
+
+    [header, result] + values
   end
 
   def update_bets(new_bets, user)

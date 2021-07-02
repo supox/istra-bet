@@ -69,31 +69,16 @@
         %td= user
 
 - if @round.closed?
-  - all_bets = @round.all_users_bets
-  - all_games = all_bets.map{|k, v| v[:games].keys}.flatten.uniq
-  - all_mcs = all_bets.map{|k, v| v[:mcs].keys}.flatten.uniq
+  - all_bets = @round.all_users_bets_table
   %h3.center All bets
   %table.table.table-dark.table-striped.table-hover.table-sm
     %tr
-      %th User
-      - all_games.each do |g|
-        %th= Game.find_by_id(g).short_description
-      - all_mcs.each do |m|
-        %th= MultiChoice.find_by_id(m).short_description
-    %tr
-      %td Result
-      - all_games.each do |g|
-        %td= Game.find_by_id(g).result_name
-      - all_mcs.each do |m|
-        %td= MultiChoice.find_by_id(m).result_name
-      
-    - all_bets.each do |user, games_and_mcs|
+      - all_bets[0].each do |v|
+        %th= v
+    - all_bets.drop(1).each do |row|
       %tr
-        %td= user
-        - all_games.each do |game|
-          %td= games_and_mcs[:games][game] or "-"
-        - all_mcs.each do |mc|
-          %td= games_and_mcs[:mcs][mc] or "-"
+        - row.each do |v|
+          %td= v or "-"
   
 
 - if @round.open?

@@ -33,6 +33,10 @@ class MultiChoice < ApplicationRecord
     options.join(", ")
   end
 
+  def result_name
+    result
+  end
+
   def not_the_same_team
     unless options.nil?
       errors.add(:options, 'must be unique') if options != options.uniq
@@ -49,5 +53,9 @@ class MultiChoice < ApplicationRecord
     unless options.nil?
       options.each { |name| errors.add(:options, 'Name #{name} too is not valid') if name.nil? or name.length <=2 or name.length > 200 }
     end
+  end
+
+  def bets
+    multi_choice_bets
   end
 end
