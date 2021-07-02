@@ -73,7 +73,7 @@
   - all_games = all_bets.map{|k, v| v[:games].keys}.flatten.uniq
   - all_mcs = all_bets.map{|k, v| v[:mcs].keys}.flatten.uniq
   %h3.center All bets
-  %table.table.table-dark.table-striped.table-hover
+  %table.table.table-dark.table-striped.table-hover.table-sm
     %tr
       %th User
       - all_games.each do |g|
