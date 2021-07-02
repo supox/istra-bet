@@ -13,6 +13,7 @@ Rails.application.routes.draw do
         get 'mail'
         put 'send_mail'
         get 'calendar'
+        get 'users_bets_csv'
       end
     end
   end

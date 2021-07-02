@@ -1,9 +1,10 @@
 class RoundsController < ApplicationController
   before_action :set_round, only:
-      [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar, :mail, :send_mail]
+      [:show, :edit, :update, :destroy, :bet, :update_bet, :calendar, :mail, :send_mail, :users_bets_csv]
   before_action :set_bets, only: [:show, :bet]
   before_action :set_tournament, only: [:new, :create]
-  before_action :validate_admin, except: [:show, :bet, :update_bet, :calendar]
+  before_action :validate_admin, except: [:show, :bet, :update_bet, :calendar, :users_bets_csv]
+  before_action :validate_closed, only: [:users_bets_csv]
 
   # GET /rounds/1
   # GET /rounds/1.json
@@ -113,6 +114,11 @@ class RoundsController < ApplicationController
     send_data @round.calendar, content_type: 'text/calendar', filename: "round_#{@round.id}.ics"
   end
 
+  # GET /rounds/1/users_bets_csv
+  def users_bets_csv
+    send_data @round.all_users_bets_table_csv, content_type: 'text/csv', filename: "users-bets-#{@round.name.parameterize}.csv"
+  end
+
   # PUT /rounds/1/mail
   def mail
     @mail = RoundMail.new(
@@ -166,5 +172,11 @@ class RoundsController < ApplicationController
                                     :bet_points, :result, :_destroy
                                   ] )
       
+  end
+
+  def validate_closed
+    unless @round.closed?
+      render file: "#{Rails.root}/public/401.html", status: :unauthorized
+    end
   end
 end

@@ -1,3 +1,5 @@
+require 'csv'
+
 class Round < ApplicationRecord
   belongs_to :tournament
   has_many :games, -> { order 'created_at ASC' }, inverse_of: :round, dependent: :destroy
@@ -68,6 +70,15 @@ class Round < ApplicationRecord
 
     [header, result] + values
   end
+
+  def all_users_bets_table_csv
+    CSV.generate(headers: true) do |csv|
+      all_users_bets_table.each do |row|
+        csv << row
+      end
+    end
+  end
+
 
   def update_bets(new_bets, user)
     unless open?

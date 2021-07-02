@@ -70,15 +70,18 @@
 
 - if @round.closed?
   - all_bets = @round.all_users_bets_table
-  %h3.center All bets
-  %table.table.table-dark.table-striped.table-hover.table-sm
-    %tr
-      - all_bets[0].each do |v|
-        %th= v
-    - all_bets.drop(1).each do |row|
-      %tr
-        - row.each do |v|
-          %td= v or "-"
+  - unless all_bets.empty?
+    %h3.center All bets
+    %table.table.table-dark.table-striped.table-hover.table-sm
+      - all_bets.each_with_index do |row, index|
+        %tr
+          - row.each do |v|
+            - if index == 0
+              %th= v
+            - else
+              %td= v or "-"
+    %p
+      =link_to "CSV", users_bets_csv_round_path(@round), "data-turbolinks" => false
   
 
 - if @round.open?
