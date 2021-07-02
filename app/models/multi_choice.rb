@@ -25,6 +25,10 @@ class MultiChoice < ApplicationRecord
   validates :description, :options, :bet_points, presence: true
   validates :bet_points, numericality: { greater_than: 0 }
 
+  def short_description
+    description
+  end
+
   def options_str
     options.join(", ")
   end

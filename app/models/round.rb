@@ -18,6 +18,10 @@ class Round < ApplicationRecord
     expiration_date && (expiration_date > DateTime.now)
   end
 
+  def closed?
+    not open?
+  end
+
   def bets(user)
     games.map do |game|
       Bet.find_or_create_by(game_id: game.id, user_id: user.id)
@@ -43,6 +47,21 @@ class Round < ApplicationRecord
       end
     end
     s.map{ |user_id| User.find(user_id) }
+  end
+
+  def all_users_bets
+    h = Hash.new { |h,k| h[k] = {games: {}, mcs: {}} }
+    games.each do |game|
+      game.bets.each do |bet|
+        h[bet.user_id][:games][game.id] = bet.answer_name
+      end
+    end
+    multi_choices.each do |mc|
+      mc.multi_choice_bets.each do |bet|
+        h[bet.user_id][:mcs][mc.id] = bet.answer_name
+      end
+    end
+    h.transform_keys{ |user_id| User.find(user_id) }
   end
 
   def update_bets(new_bets, user)

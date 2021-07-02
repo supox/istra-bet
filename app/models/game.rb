@@ -21,6 +21,10 @@ class Game < ApplicationRecord
     end
   end
 
+  def short_description
+    "#{team1} vs #{team2}"
+  end
+
   def not_the_same_team
     errors.add(:team2, 'must not be the same as team1') if team1 == team2
   end
