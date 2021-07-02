@@ -80,6 +80,13 @@
         %th= Game.find_by_id(g).short_description
       - all_mcs.each do |m|
         %th= MultiChoice.find_by_id(m).short_description
+    %tr
+      %td Result
+      - all_games.each do |g|
+        %td= Game.find_by_id(g).result_name
+      - all_mcs.each do |m|
+        %td= MultiChoice.find_by_id(m).result_name
+      
     - all_bets.each do |user, games_and_mcs|
       %tr
         %td= user
