@@ -23,6 +23,30 @@ describe RoundsController do
     it { is_expected.to render_template :show }
   end
 
+  describe 'GET #users_bets_csv' do
+    let(:round) { create(:expired_round_with_games) }
+
+    before do
+      sign_in user
+      get :users_bets_csv, params: { id: round.id }
+    end
+    it "should generate CSV" do 
+      expect(response.body).to eq(round.all_users_bets_table_csv)
+      expect(response.header['Content-Type']).to eq('text/csv')
+    end
+  end
+
+  describe 'GET #users_bet_csv open round' do
+    let(:round) { create(:round_with_games) }
+    before do
+      sign_in user
+      get :users_bets_csv, params: { id: round.id }
+    end
+    it "Shouldn't generate CSV for open round" do
+      expect(response).to have_http_status 401
+    end
+  end
+
   describe 'GET #bet' do
     let(:game) { create(:game, round: round) }
 

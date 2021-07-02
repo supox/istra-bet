@@ -65,7 +65,7 @@ class Round < ApplicationRecord
     end
     h.transform_keys{ |user_id| User.find(user_id) }
     values = h.collect do |user_id, row|
-      [User.find(user_id)] + row
+      [User.find(user_id).name] + row
     end
 
     [header, result] + values

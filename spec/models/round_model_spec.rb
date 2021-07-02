@@ -6,10 +6,12 @@ RSpec.describe Round, :type => :model do
     it "should be closed for old rounds" do
       round.expiration_date = DateTime.now - 2.days
       expect(round).not_to be_open
+      expect(round).to be_closed
     end
 
     it "should be open for new rounds" do
       expect(round).to be_open
+      expect(round).not_to be_closed
     end
   end
 
@@ -96,7 +98,6 @@ RSpec.describe Round, :type => :model do
     end
   end
 
-
   context "multi_choice" do
     it "should return multi_choice_bet for each multi_choice" do
       user = create(:user)
@@ -181,6 +182,36 @@ RSpec.describe Round, :type => :model do
 
   end
 
+  context "all users table" do
+    it "should have table" do
+      user1 = create(:user)
+      user2 = create(:user)
+      game1 = create(:game, round: round, team1: "TEAM1", team2: "TEAM2")
+      game2 = create(:game, round: round)
+      game3 = create(:game, round: round, team1: "WOW1", team2: "WOW2")
+
+      bet11 = create(:bet, user: user1, game: game1, answer: :tie)
+      bet12 = create(:bet, user: user1, game: game2, answer: :tie)
+      bet13 = create(:bet, user: user1, game: game3, answer: :team1)
+      bet21 = create(:bet, user: user2, game: game1, answer: :team2)
+      bet22 = create(:bet, user: user2, game: game2, answer: :tie)
+      bet23 = create(:bet, user: user2, game: game3, answer: :team1)
+
+      table = round.all_users_bets_table
+      expected = [
+        ["User", game1.short_description, game2.short_description, game3.short_description],
+        ["Result", game1.result_name, game2.result_name, game3.result_name],
+        [user1.name, "Tie", "Tie", game3.team1],
+        [user2.name, game1.team2, "Tie", game3.team1]]
+      expect(table).to eq(expected)
+
+      csv_table = round.all_users_bets_table_csv
+      csv_table_expected = CSV.generate(headers: true) do |csv|
+        expected.each {|row| csv << row}
+      end
+      expect(csv_table).to eq(csv_table_expected)
+    end
+  end
 
   it "should have to_s method" do
     expect(round.to_s).to eq(round.name)
