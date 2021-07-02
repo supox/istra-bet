@@ -81,11 +81,12 @@
       - all_mcs.each do |m|
         %th= MultiChoice.find_by_id(m).short_description
     - all_bets.each do |user, games_and_mcs|
-      %td= user
-      - all_games.each do |game|
-        %td= games_and_mcs[:games][game] or "-"
-      - all_mcs.each do |mc|
-        %td= games_and_mcs[:mcs][mc] or "-"
+      %tr
+        %td= user
+        - all_games.each do |game|
+          %td= games_and_mcs[:games][game] or "-"
+        - all_mcs.each do |mc|
+          %td= games_and_mcs[:mcs][mc] or "-"
   
 
 - if @round.open?
